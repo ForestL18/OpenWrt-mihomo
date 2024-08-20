@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
 
       - name: Build
-        uses: ForestL18/gh-action-sdk@main
+        uses: pmkol/openwrt-gh-action-sdk@main
         env:
           ARCH: ${{ matrix.arch }}-${{ matrix.release }}
           FEEDNAME: mihomo_openwrt
