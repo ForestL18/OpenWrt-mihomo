@@ -1,12 +1,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=mihomo
-PKG_VERSION:=1.18.7
-PKG_RELEASE:=163
+PKG_VERSION:=Alpha
+PKG_RELEASE:=1
 PKG_BUILD_TIME=$(shell date -u -Iseconds)
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/metacubex/mihomo/tar.gz/v$(PKG_VERSION)?
+PKG_SOURCE_URL:=https://codeload.github.com/metacubex/mihomo/tar.gz/$(PKG_VERSION)?
 PKG_HASH:=e4ff0d1a8762ff3e259e4999d9808b353c7a58a1dcabe87dccc9c91bdb6814c7
 
 PKG_BUILD_DEPENDS:=golang/host
