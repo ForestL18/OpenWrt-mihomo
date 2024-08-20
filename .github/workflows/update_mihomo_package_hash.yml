@@ -44,6 +44,10 @@ jobs:
           LATEST_HASH: ${{ steps.get_hash.outputs.LATEST_HASH }}
           MIRROR_HASH: ${{ steps.calc_hash.outputs.MIRROR_HASH }}
 
+      - name: Remove mihomo_core directory
+        run: |
+          rm -rf mihomo_core
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
