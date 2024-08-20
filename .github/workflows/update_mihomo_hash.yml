@@ -1,0 +1,47 @@
+name: Update MIhomo Hash
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # 每天运行一次
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  update-source:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get latest commit
+        id: get_latest_commit
+        run: |
+          LATEST_COMMIT=$(git ls-remote https://github.com/MetaCubeX/mihomo.git HEAD | cut -f1)
+          echo "LATEST_COMMIT=$LATEST_COMMIT" >> $GITHUB_OUTPUT
+
+      - name: Calculate mirror hash
+        id: calculate_hash
+        run: |
+          git clone --depth 1 https://github.com/MetaCubeX/mihomo.git temp_repo
+          cd temp_repo
+          git checkout ${{ steps.get_latest_commit.outputs.LATEST_COMMIT }}
+          MIRROR_HASH=$(find . -type f -not -path './.git/*' -print0 | sort -z | xargs -0 sha256sum | sha256sum | cut -d ' ' -f1)
+          echo "MIRROR_HASH=$MIRROR_HASH" >> $GITHUB_OUTPUT
+          cd ..
+          rm -rf temp_repo
+
+      - name: Update Makefile
+        run: |
+          sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:=${{ steps.get_latest_commit.outputs.LATEST_COMMIT }}/' Makefile
+          sed -i 's/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=${{ steps.calculate_hash.outputs.MIRROR_HASH }}/' Makefile
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: Update upstream source version and hash
+          title: Update upstream source
+          body: |
+            This PR updates the upstream source version and mirror hash:
+            - PKG_SOURCE_VERSION: ${{ steps.get_latest_commit.outputs.LATEST_COMMIT }}
+            - PKG_MIRROR_HASH: ${{ steps.calculate_hash.outputs.MIRROR_HASH }}
+          branch: update-mihomo-hash
