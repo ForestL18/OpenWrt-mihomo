@@ -7,7 +7,7 @@ PKG_BUILD_TIME=$(shell date -u -Iseconds)
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/metacubex/mihomo/tar.gz/$(PKG_VERSION)?
-PKG_HASH:=e4ff0d1a8762ff3e259e4999d9808b353c7a58a1dcabe87dccc9c91bdb6814c7
+PKG_HASH:=8d34075c5e79543f9bd3ada92cf99052e940650f870148474cc722c4744983ca
 
 PKG_BUILD_DEPENDS:=golang/host
 PKG_BUILD_PARALLEL:=1
