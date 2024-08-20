@@ -32,8 +32,8 @@ jobs:
 
       - name: Update Makefile
         run: |
-          sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:=${{ steps.get_latest_commit.outputs.LATEST_COMMIT }}/' Makefile
-          sed -i 's/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=${{ steps.calculate_hash.outputs.MIRROR_HASH }}/' Makefile
+          sed -i 's/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:=${{ steps.get_latest_commit.outputs.LATEST_COMMIT }}/' mihomo/Makefile
+          sed -i 's/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=${{ steps.calculate_hash.outputs.MIRROR_HASH }}/' mihomo/Makefile
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
