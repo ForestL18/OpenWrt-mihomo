@@ -12,10 +12,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Get latest commit hash
+      - name: Get latest commit hash of Alpha branch
         id: get_hash
         run: |
-          git clone https://github.com/MetaCubeX/mihomo.git mihomo_core
+          git clone --branch Alpha --single-branch --depth 1 https://github.com/MetaCubeX/mihomo.git mihomo_core
           cd mihomo_core
           LATEST_HASH=$(git rev-parse HEAD)
           echo "LATEST_HASH=$LATEST_HASH" >> $GITHUB_OUTPUT
