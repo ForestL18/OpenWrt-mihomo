@@ -38,8 +38,8 @@ jobs:
 
       - name: Update Makefile
         run: |
-          sed -i "s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:=$LATEST_HASH/" Makefile
-          sed -i "s/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=$MIRROR_HASH/" Makefile
+          sed -i "s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:=$LATEST_HASH/" mihomo/Makefile
+          sed -i "s/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=$MIRROR_HASH/" mihomo/Makefile
         env:
           LATEST_HASH: ${{ steps.get_hash.outputs.LATEST_HASH }}
           MIRROR_HASH: ${{ steps.calc_hash.outputs.MIRROR_HASH }}
