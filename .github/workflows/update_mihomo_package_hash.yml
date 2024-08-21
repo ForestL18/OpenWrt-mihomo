@@ -23,6 +23,7 @@ jobs:
           cd mihomo_core
           LATEST_HASH=$(git rev-parse HEAD)
           echo "LATEST_HASH=$LATEST_HASH" >> $GITHUB_OUTPUT
+          echo "Latest commit hash: $LATEST_HASH"
 
       - name: Generate source archive
         run: |
@@ -37,6 +38,7 @@ jobs:
         run: |
           MIRROR_HASH=$(sha256sum mihomo_core/compress/mihomo-${LATEST_HASH:0:8}.tar.gz | awk '{print $1}')
           echo "MIRROR_HASH=$MIRROR_HASH" >> $GITHUB_OUTPUT
+          echo "Calculated MIRROR_HASH: $MIRROR_HASH"
         env:
           LATEST_HASH: ${{ steps.get_hash.outputs.LATEST_HASH }}
 
@@ -46,10 +48,17 @@ jobs:
           CURRENT_SOURCE_VERSION=$(grep "PKG_SOURCE_VERSION:=" mihomo/Makefile | cut -d'=' -f2)
           CURRENT_MIRROR_HASH=$(grep "PKG_MIRROR_HASH:=" mihomo/Makefile | cut -d'=' -f2)
 
+          echo "Current PKG_SOURCE_VERSION: $CURRENT_SOURCE_VERSION"
+          echo "Current PKG_MIRROR_HASH: $CURRENT_MIRROR_HASH"
+          echo "New PKG_SOURCE_VERSION: ${{ steps.get_hash.outputs.LATEST_HASH }}"
+          echo "New PKG_MIRROR_HASH: ${{ steps.calc_hash.outputs.MIRROR_HASH }}"
+
           if [ "$CURRENT_SOURCE_VERSION" != "${{ steps.get_hash.outputs.LATEST_HASH }}" ] || [ "$CURRENT_MIRROR_HASH" != "${{ steps.calc_hash.outputs.MIRROR_HASH }}" ]; then
             echo "CHANGES_DETECTED=true" >> $GITHUB_OUTPUT
+            echo "Changes detected! Update required."
           else
             echo "CHANGES_DETECTED=false" >> $GITHUB_OUTPUT
+            echo "No changes detected. No update required."
           fi
 
       - name: Remove mihomo_core directory
@@ -67,6 +76,7 @@ jobs:
         run: |
           sed -i "s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:=${{ needs.check-for-updates.outputs.latest_hash }}/" mihomo/Makefile
           sed -i "s/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=${{ needs.check-for-updates.outputs.mirror_hash }}/" mihomo/Makefile
+          echo "Updated Makefile with new hashes."
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
