@@ -30,7 +30,8 @@ jobs:
         run: |
           cd mihomo_core
           mkdir -p compress
-          git archive --format=tar.xz --output=compress/mihomo-${LATEST_HASH:0:7}.tar.xz HEAD
+          git archive --format=tar --output=compress/mihomo-${LATEST_HASH:0:7}.tar HEAD
+          xz -z compress/mihomo-${LATEST_HASH:0:7}.tar
         env:
           LATEST_HASH: ${{ steps.get_hash.outputs.LATEST_HASH }}
 
