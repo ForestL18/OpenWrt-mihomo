@@ -40,7 +40,7 @@ jobs:
           git checkout HEAD -- mihomo/Makefile
           git checkout HEAD -- luci-app-mihomo/Makefile
           git checkout HEAD -- .github/workflows/sync_upstream.yml
-          git checkout HEAD -- .github/workflows/update_mihomo_hash.yml
+          git checkout HEAD -- .github/workflows/update_mihomo_package_hash.yml
           git checkout HEAD -- .github/workflows/build.yml
           git checkout HEAD -- .github/workflows/release.yml
 
