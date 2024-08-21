@@ -1,10 +1,29 @@
 name: Build Packages
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # 保留手动触发选项
+  pull_request:
+    types: [closed]
+    branches:
+      - Alpha # 或者你的默认分支名，如 master
 
 jobs:
+  check_pr_merge:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    steps:
+      - name: Check PR title
+        id: check_title
+        run: |
+          if [[ "${{ github.event.pull_request.title }}" == "Update Mihomo Package Hash" ]]; then
+            echo "SHOULD_BUILD=true" >> $GITHUB_OUTPUT
+          else
+            echo "SHOULD_BUILD=false" >> $GITHUB_OUTPUT
+          fi
+
   build:
+    needs: check_pr_merge
+    if: needs.check_pr_merge.outputs.SHOULD_BUILD == 'true'
     name: ${{ matrix.arch }}-${{ matrix.release }} build
     runs-on: ubuntu-latest
     strategy:
