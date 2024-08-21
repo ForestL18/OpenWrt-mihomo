@@ -1,29 +1,34 @@
 name: Build Packages
 
 on:
-  workflow_dispatch: # 保留手动触发选项
+  workflow_dispatch: # 手动触发
   pull_request:
     types: [closed]
     branches:
-      - Alpha # 或者你的默认分支名，如 master
+      - Alpha # 或者你的默认分支名
 
 jobs:
   check_pr_merge:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
+    outputs:
+      should_build: ${{ steps.check.outputs.should_build }}
+
     steps:
-      - name: Check PR title
-        id: check_title
+      - name: Check PR
+        id: check
         run: |
-          if [[ "${{ github.event.pull_request.title }}" == "Update Mihomo Package Hash" ]]; then
-            echo "SHOULD_BUILD=true" >> $GITHUB_OUTPUT
+          if [[ "${{ github.event.pull_request.merged }}" == "true" && "${{ github.event.pull_request.title }}" == "Update Mihomo package Hash" ]]; then
+            echo "should_build=true" >> $GITHUB_OUTPUT
           else
-            echo "SHOULD_BUILD=false" >> $GITHUB_OUTPUT
+            echo "should_build=false" >> $GITHUB_OUTPUT
           fi
 
   build:
     needs: check_pr_merge
-    if: needs.check_pr_merge.outputs.SHOULD_BUILD == 'true'
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'pull_request' && needs.check_pr_merge.outputs.should_build == 'true')
     name: ${{ matrix.arch }}-${{ matrix.release }} build
     runs-on: ubuntu-latest
     strategy:
