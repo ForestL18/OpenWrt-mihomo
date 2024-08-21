@@ -21,7 +21,7 @@ jobs:
             echo "should_build=true" >> $GITHUB_OUTPUT
           elif [[ "${{ github.event_name }}" == "pull_request" && \
                   "${{ github.event.pull_request.merged }}" == "true" && \
-                  "${{ github.event.pull_request.title }}" == "Update Mihomo Package Hash" ]]; then
+                  "${{ github.event.pull_request.title }}" == "Sync Upstream Changes" ]]; then
             echo "should_build=true" >> $GITHUB_OUTPUT
           else
             echo "should_build=false" >> $GITHUB_OUTPUT
