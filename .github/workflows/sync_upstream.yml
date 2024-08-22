@@ -11,45 +11,33 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
       - name: Configure Git
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-
       - name: Add Upstream Remote
         run: |
           git remote add upstream https://github.com/morytyann/OpenWrt-mihomo.git
-
-      - name: Fetch Upstream
-        run: |
-          git fetch upstream
-
-      - name: Switch to Target Branch
-        run: |
-          git checkout Alpha
-
-      - name: Set up sparse-checkout
+      - name: Setup Sparse Checkout
         run: |
           git config core.sparsecheckout true
           echo '/*' > .git/info/sparse-checkout
           echo '!mihomo/Makefile' >> .git/info/sparse-checkout
           echo '!luci-app-mihomo/Makefile' >> .git/info/sparse-checkout
-          echo '!.github/workflows/' >> .git/info/sparse-checkout
-
-      - name: Merge Upstream
+          echo '!.github/workflows' >> .git/info/sparse-checkout
+      - name: Fetch and Merge Upstream
         run: |
+          git fetch upstream
+          git checkout Alpha
           git merge upstream/main --allow-unrelated-histories
-
       - name: Check for Changes
         id: check_changes
         run: |
-          if git diff --quiet HEAD; then
+          if git diff --quiet && git diff --staged --quiet; then
             echo "changes_made=false" >> $GITHUB_OUTPUT
           else
             echo "changes_made=true" >> $GITHUB_OUTPUT
           fi
-
       - name: Create Pull Request
         if: steps.check_changes.outputs.changes_made == 'true'
         uses: peter-evans/create-pull-request@v6
@@ -61,14 +49,12 @@ jobs:
             This PR syncs changes from the upstream repository.
             Automated changes by GitHub Actions.
           branch: sync-upstream-changes
-          base: Alpha # 目标分支，保持与之前相同
+          base: Alpha
           delete-branch: true
-
       - name: Check PR Status
         if: steps.check_changes.outputs.changes_made == 'true'
         run: |
           echo "Pull Request created successfully."
-          
       - name: No Changes
         if: steps.check_changes.outputs.changes_made == 'false'
         run: |
