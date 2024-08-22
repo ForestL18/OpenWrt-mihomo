@@ -3,7 +3,6 @@ on:
   schedule:
     - cron: "0 17 * * *" # 每天运行 01:00 AM UTC+8
   workflow_dispatch: # 允许手动触发
-
 jobs:
   sync-upstream:
     runs-on: ubuntu-latest
@@ -30,20 +29,22 @@ jobs:
         run: |
           git checkout Alpha
 
+      - name: Set up sparse-checkout
+        run: |
+          git config core.sparsecheckout true
+          echo '/*' > .git/info/sparse-checkout
+          echo '!mihomo/Makefile' >> .git/info/sparse-checkout
+          echo '!luci-app-mihomo/Makefile' >> .git/info/sparse-checkout
+          echo '!.github/workflows/' >> .git/info/sparse-checkout
+
       - name: Merge Upstream
         run: |
-          git merge upstream/main -X ours --no-commit --no-ff
-
-      - name: Restore Excluded Files
-        run: |
-          git checkout HEAD -- mihomo/Makefile
-          git checkout HEAD -- luci-app-mihomo/Makefile
-          git checkout HEAD -- .github/workflows/*.yml
+          git merge upstream/main --allow-unrelated-histories
 
       - name: Check for Changes
         id: check_changes
         run: |
-          if git diff --quiet && git diff --staged --quiet; then
+          if git diff --quiet HEAD; then
             echo "changes_made=false" >> $GITHUB_OUTPUT
           else
             echo "changes_made=true" >> $GITHUB_OUTPUT
@@ -67,7 +68,7 @@ jobs:
         if: steps.check_changes.outputs.changes_made == 'true'
         run: |
           echo "Pull Request created successfully."
-
+          
       - name: No Changes
         if: steps.check_changes.outputs.changes_made == 'false'
         run: |
