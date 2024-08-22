@@ -1,5 +1,4 @@
 name: Sync Upstream
-
 on:
   schedule:
     - cron: "0 17 * * *" # 每天运行 01:00 AM UTC+8
@@ -39,10 +38,7 @@ jobs:
         run: |
           git checkout HEAD -- mihomo/Makefile
           git checkout HEAD -- luci-app-mihomo/Makefile
-          git checkout HEAD -- .github/workflows/sync_upstream.yml
-          git checkout HEAD -- .github/workflows/update_mihomo_package_hash.yml
-          git checkout HEAD -- .github/workflows/build.yml
-          git checkout HEAD -- .github/workflows/release.yml
+          git checkout HEAD -- .github/workflows
 
       - name: Check for Changes
         id: check_changes
@@ -62,7 +58,6 @@ jobs:
           title: Sync Upstream Changes
           body: |
             This PR syncs changes from the upstream repository.
-
             Automated changes by GitHub Actions.
           branch: sync-upstream-changes
           base: Alpha # 目标分支，保持与之前相同
