@@ -38,7 +38,7 @@ jobs:
         run: |
           git checkout HEAD -- mihomo/Makefile
           git checkout HEAD -- luci-app-mihomo/Makefile
-          git checkout HEAD -- .github/workflows
+          git checkout HEAD -- .github/workflows/*
 
       - name: Check for Changes
         id: check_changes
