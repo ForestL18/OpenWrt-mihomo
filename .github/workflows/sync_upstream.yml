@@ -19,20 +19,27 @@ jobs:
           git config user.name 'GitHub Actions'
           git config user.email 'actions@github.com'
 
-      - name: Fetch Upstream
-        run: |
-          git remote add upstream https://github.com/morytyann/OpenWrt-mihomo.git
-          git fetch upstream
+      - name: Add Upstream Remote
+        run: git remote add upstream https://github.com/morytyann/OpenWrt-mihomo.git
 
-      - name: Merge Upstream
+      - name: Fetch Upstream
+        run: git fetch upstream
+
+      - name: Sync with Upstream
         run: |
-          git merge -X theirs upstream/main --no-edit
+          git merge upstream/main --no-edit
           git status
+
+      - name: Reset Excluded Files and Directory
+        run: |
+          git checkout HEAD -- mihomo/Makefile
+          git checkout HEAD -- luci-app-mihomo/Makefile
+          git checkout HEAD -- .github/workflows/
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
           title: "Sync: Merge upstream changes"
-          body: "This PR syncs changes from the upstream repository while preserving our local modifications as specified in .gitattributes."
+          body: "Automated PR to sync changes from the upstream repository"
           branch: sync-upstream
           base: Alpha
