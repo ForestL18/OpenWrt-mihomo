@@ -13,7 +13,6 @@ jobs:
       - name: Checkout current repository
         uses: actions/checkout@v4
         with:
-          persist-credentials: false # 禁用自动提供的token
           fetch-depth: 0 # 获取所有历史记录
 
       - name: Add Upstream Remote
