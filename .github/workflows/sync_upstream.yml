@@ -23,14 +23,15 @@ jobs:
       - name: Add Upstream Remote
         run: git remote add upstream https://github.com/morytyann/OpenWrt-mihomo.git
 
-      - name: Fetch Upstream
-        run: git fetch upstream
+      - name: Fetch Upstream and Origin
+        run: |
+          git fetch upstream
+          git fetch origin
 
       - name: Sync Upstream Changes
         run: |
           git merge -X theirs --no-edit upstream/main
-          git reset upstream/main -- mihomo/Makefile luci-app-mihomo/Makefile .github/workflows
-          git checkout -- mihomo/Makefile luci-app-mihomo/Makefile
+          git checkout origin/Alpha -- mihomo/Makefile luci-app-mihomo/Makefile .github/workflows
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
@@ -41,7 +42,7 @@ jobs:
           body: |
             This PR syncs changes from the upstream repository.
 
-            Changes to the following files/directories were ignored:
+            The following files/directories are kept in sync with the origin/Alpha branch:
             - mihomo/Makefile
             - luci-app-mihomo/Makefile
             - .github/workflows
