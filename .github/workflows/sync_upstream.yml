@@ -2,18 +2,18 @@ name: Sync Upstream and Create PR
 
 on:
   schedule:
-    - cron: "0 0 * * *" # 每天运行一次
+    - cron: "0 0 * * *" # 每天运行
   workflow_dispatch: # 允许手动触发
 
 jobs:
-  sync-and-pr:
+  sync:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # 获取完整历史记录
+          fetch-depth: 0
 
       - name: Configure Git
         run: |
@@ -28,30 +28,24 @@ jobs:
 
       - name: Sync Upstream Changes
         run: |
-          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-          git checkout -B sync-upstream $CURRENT_BRANCH
-          git merge -X theirs --no-commit --no-ff upstream/main
-
-      - name: Restore Ignored Files and Directories
-        run: |
-          git checkout HEAD -- mihomo/Makefile luci-app-mihomo/Makefile
-          git restore --staged mihomo/Makefile luci-app-mihomo/Makefile
-          git checkout HEAD -- .github/workflows
-          git restore --staged .github/workflows
+          git checkout -b sync-upstream
+          git merge -X theirs --no-edit upstream/main
+          git reset upstream/main -- mihomo/Makefile luci-app-mihomo/Makefile .github/workflows
+          git checkout -- mihomo/Makefile luci-app-mihomo/Makefile
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: Sync upstream changes
-          title: Sync changes from upstream repository
+          commit-message: Sync changes from upstream repository
+          title: Sync Upstream Changes
           body: |
             This PR syncs changes from the upstream repository.
 
-            Ignored files and directories:
+            Changes to the following files/directories were ignored:
             - mihomo/Makefile
             - luci-app-mihomo/Makefile
-            - .github/workflows/
+            - .github/workflows
           branch: sync-upstream
+          base: Alpha
           delete-branch: true
-          base: ${{ github.ref }}
