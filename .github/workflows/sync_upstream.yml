@@ -2,11 +2,11 @@ name: Sync Upstream and Create PR
 
 on:
   schedule:
-    - cron: "0 0 * * *" # 每天UTC时间00:00运行
+    - cron: "0 17 * * *" # 每天运行一次
   workflow_dispatch: # 允许手动触发
 
 jobs:
-  sync:
+  sync-upstream:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -16,50 +16,23 @@ jobs:
 
       - name: Configure Git
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-
-      - name: Add Upstream Remote
-        run: git remote add upstream https://github.com/morytyann/OpenWrt-mihomo.git
+          git config user.name 'GitHub Actions'
+          git config user.email 'actions@github.com'
 
       - name: Fetch Upstream
-        run: git fetch upstream
+        run: |
+          git remote add upstream https://github.com/morytyann/OpenWrt-mihomo.git
+          git fetch upstream
 
       - name: Merge Upstream
         run: |
-          # 备份要保持不变的文件和目录
-          cp mihomo/Makefile mihomo/Makefile.bak
-          cp luci-app-mihomo/Makefile luci-app-mihomo/Makefile.bak
-          cp -r .github/workflows .github/workflows.bak
-
-          # 合并上游更改
-          git merge -X theirs upstream/main --no-commit --no-ff
-
-          # 恢复指定的文件和目录
-          mv mihomo/Makefile.bak mihomo/Makefile
-          mv luci-app-mihomo/Makefile.bak luci-app-mihomo/Makefile
-          rm -rf .github/workflows
-          mv .github/workflows.bak .github/workflows
-
-          # 添加更改到暂存区
-          git add .
-
-          # 提交更改，如果有的话
-          git diff --cached --quiet || git commit -m "Sync with upstream"
+          git merge -X theirs upstream/main --no-edit
+          git status
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: Sync upstream changes
-          title: Sync changes from upstream repository
-          body: |
-            This PR syncs changes from the upstream repository.
-
-            Changes have been merged excluding:
-            - mihomo/Makefile
-            - luci-app-mihomo/Makefile
-            - .github/workflows directory
+          title: "Sync: Merge upstream changes"
+          body: "This PR syncs changes from the upstream repository while preserving our local modifications as specified in .gitattributes."
           branch: sync-upstream
-          delete-branch: true
           base: Alpha
