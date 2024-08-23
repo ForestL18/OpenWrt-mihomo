@@ -16,7 +16,7 @@ PKG_BUILD_DEPENDS:=golang/host
 PKG_BUILD_PARALLEL:=1
 PKG_BUILD_FLAGS:=no-mips16
 
-PKG_BUILD_VERSION:=$(PKG_SOURCE_DATE)-$(shell printf '%.7s' $(PKG_SOURCE_VERSION))
+PKG_BUILD_VERSION:=$(PKG_SOURCE_DATE)-$(shell printf '%.8s' $(PKG_SOURCE_VERSION))
 PKG_BUILD_TIME:=$(shell date -u -Iseconds)
 
 GO_PKG:=github.com/metacubex/mihomo
