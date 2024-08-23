@@ -46,5 +46,5 @@ jobs:
             - luci-app-mihomo/Makefile
             - .github/workflows
           branch: sync-upstream
-          base: main
+          base: Alpha
           delete-branch: true
