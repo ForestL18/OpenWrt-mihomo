@@ -36,14 +36,13 @@ jobs:
           git checkout -b sync-upstream
           git merge upstream/main --allow-unrelated-histories
 
-      - name: Push Changes
-        run: git push origin sync-upstream
-
       - name: Create Pull Request
-        uses: repo-sync/pull-request@v6
+        uses: peter-evans/create-pull-request@v6
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          source_branch: "sync-upstream"
-          destination_branch: "main"
-          pr_title: "Sync: Merge upstream changes"
-          pr_body: "Automated PR to sync changes from upstream repository"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: sync-upstream
+          base: main
+          title: "Sync: Merge upstream changes"
+          body: "Automated PR to sync changes from upstream repository"
+          commit-message: "Sync: Merge changes from upstream repository"
+          delete-branch: true
