@@ -28,7 +28,6 @@ jobs:
 
       - name: Sync Upstream Changes
         run: |
-          git checkout -b sync-upstream-changes
           git merge -X theirs --no-edit upstream/main
           git reset upstream/main -- mihomo/Makefile luci-app-mihomo/Makefile .github/workflows
           git checkout -- mihomo/Makefile luci-app-mihomo/Makefile
@@ -36,6 +35,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Sync changes from upstream repository
           title: Sync Upstream Changes
           body: |
@@ -45,6 +45,6 @@ jobs:
             - mihomo/Makefile
             - luci-app-mihomo/Makefile
             - .github/workflows
-          branch: sync-upstream-changes
-          base: Alpha
+          branch: sync-upstream
+          base: main
           delete-branch: true
