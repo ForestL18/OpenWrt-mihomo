@@ -2,7 +2,7 @@ name: Sync Upstream and Create PR
 
 on:
   schedule:
-    - cron: "0 17 * * *" # 每天运行一次
+    - cron: "0 0 * * *" # 每天运行一次
   workflow_dispatch: # 允许手动触发
 
 jobs:
@@ -28,7 +28,8 @@ jobs:
 
       - name: Sync Upstream Changes
         run: |
-          git checkout main
+          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          git checkout -B sync-upstream $CURRENT_BRANCH
           git merge -X theirs --no-commit --no-ff upstream/main
 
       - name: Restore Ignored Files and Directories
@@ -52,5 +53,5 @@ jobs:
             - luci-app-mihomo/Makefile
             - .github/workflows/
           branch: sync-upstream
-          base: Alpha
           delete-branch: true
+          base: ${{ github.ref }}
