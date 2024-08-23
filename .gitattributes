@@ -1,4 +1,1 @@
-.gitattributes merge=ours
-mihomo/Makefile merge=ours
-luci-app-mihomo/Makefile merge=ours
-.github/workflows/** merge=ours
+
