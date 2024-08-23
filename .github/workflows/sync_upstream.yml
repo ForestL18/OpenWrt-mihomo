@@ -20,7 +20,7 @@ jobs:
           git remote add upstream https://github.com/morytyann/OpenWrt-mihomo.git
           git fetch upstream
           git read-tree --prefix=temp/ -u upstream/main
-          git checkout HEAD -- mihomo/Makefile luci-app-mihomo/Makefile .github/workflows
+          git checkout HEAD -- mihomo/Makefile luci-app-mihomo/Makefile .github
           git read-tree --prefix=. -u HEAD
           git commit -m "Sync upstream"
 
@@ -37,5 +37,5 @@ jobs:
             - `luci-app-mihomo/Makefile`
 
             Ignored directory:
-            - `.github/workflows`
+            - `.github`
           delete-branch: true
