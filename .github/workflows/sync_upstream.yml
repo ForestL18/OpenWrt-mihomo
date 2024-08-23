@@ -2,7 +2,7 @@ name: Sync Upstream and Create PR
 
 on:
   schedule:
-    - cron: "0 17 * * *" # 每天午夜运行
+    - cron: "0 17 * * *" # 每天运行一次
   workflow_dispatch: # 允许手动触发
 
 jobs:
@@ -10,10 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout Alpha branch
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: Alpha
 
       - name: Configure Git
         run: |
@@ -29,27 +30,15 @@ jobs:
       - name: Create Sync Branch
         run: git checkout -b sync-upstream-changes
 
-      - name: Sync Upstream Changes
+      - name: Merge Upstream
         run: |
-          # 创建一个新的合并提交，但不自动提交
-          git merge --no-commit --no-ff upstream/main
+          git merge upstream/main --no-commit --no-ff
+          git reset -- mihomo/Makefile luci-app-mihomo/Makefile .github/workflows/
+          git checkout -- mihomo/Makefile luci-app-mihomo/Makefile
+          git add .
+          git diff --staged --quiet || git commit -m "Sync upstream changes"
 
-          # 使用 git read-tree 来更新工作目录，排除不想要的文件和目录
-          git read-tree -mu HEAD:. upstream/main:. \
-            ':!mihomo/Makefile' \
-            ':!luci-app-mihomo/Makefile' \
-            ':!.github/workflows'
-
-          # 检查是否有变更
-          if git diff --staged --quiet; then
-            echo "No changes to commit."
-            exit 0
-          fi
-
-          # 提交变更
-          git commit -m "Sync upstream changes"
-
-      - name: Push changes
+      - name: Push New Branch
         run: git push origin sync-upstream-changes
 
       - name: Create Pull Request
@@ -57,16 +46,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           title: "Sync changes from upstream repository"
-          body: |
-            This PR syncs changes from the upstream repository.
-
-            Changes exclude:
-            - mihomo/Makefile
-            - luci-app-mihomo/Makefile
-            - .github/workflows/ directory
-
-            Please review and merge.
+          body: "This PR syncs changes from the upstream repository, excluding specified files and directories."
           branch: sync-upstream-changes
-          base: Alpha # 您的主分支名称，通常是 main 或 master
-          labels: automated pr, sync
-          draft: false
+          base: Alpha
+          labels: automated-pr, sync-upstream
