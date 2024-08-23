@@ -25,9 +25,11 @@ jobs:
 
       - name: Setup Sparse Checkout
         run: |
-          git sparse-checkout init --cone
-          git sparse-checkout set '/*'
-          git sparse-checkout add '!mihomo/Makefile' '!luci-app-mihomo/Makefile' '!.github/workflows'
+          git config core.sparsecheckout true
+          echo '*' > .git/info/sparse-checkout
+          echo '!mihomo/Makefile' >> .git/info/sparse-checkout
+          echo '!luci-app-mihomo/Makefile' >> .git/info/sparse-checkout
+          echo '!.github/workflows' >> .git/info/sparse-checkout
 
       - name: Fetch Upstream
         run: git fetch upstream
