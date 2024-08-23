@@ -33,6 +33,9 @@ jobs:
           git reset upstream/main -- mihomo/Makefile luci-app-mihomo/Makefile .github/workflows
           git checkout -- mihomo/Makefile luci-app-mihomo/Makefile
 
+      - name: Push Changes
+        run: git push -f origin sync-upstream
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
