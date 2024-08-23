@@ -32,9 +32,10 @@ jobs:
 
       - name: Merge Upstream
         run: |
-          git merge upstream/main --no-commit --no-ff
-          git reset -- mihomo/Makefile luci-app-mihomo/Makefile .github/workflows/
-          git checkout -- mihomo/Makefile luci-app-mihomo/Makefile
+          git merge upstream/main --no-commit --no-ff \
+          -X ignore=mihomo/Makefile \
+          -X ignore=luci-app-mihomo/Makefile \
+          -X ignore=.github/workflows/
           git add .
           git diff --staged --quiet || git commit -m "Sync upstream changes"
 
