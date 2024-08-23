@@ -22,15 +22,22 @@ jobs:
       - name: Add Upstream Remote
         run: git remote add upstream https://github.com/morytyann/OpenWrt-mihomo.git
 
-      - name: Fetch and Merge Upstream
+      - name: Fetch Upstream
+        run: git fetch upstream
+
+      - name: Create and Switch to Sync Branch
+        run: git checkout -b sync-upstream
+
+      - name: Merge Upstream
         run: |
-          git fetch upstream
-          git checkout -b sync-upstream
           git read-tree -mu HEAD upstream/main
           git reset upstream/main -- mihomo/Makefile luci-app-mihomo/Makefile .github/workflows
           git checkout -- mihomo/Makefile luci-app-mihomo/Makefile
           git add .
           git diff-index --quiet HEAD || git commit -m "Sync: Merge changes from upstream repository"
+
+      - name: Push Changes
+        run: git push origin sync-upstream --force
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
