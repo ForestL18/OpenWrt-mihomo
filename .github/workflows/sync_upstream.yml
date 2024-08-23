@@ -1,61 +1,72 @@
-name: Sync Upstream
+name: Sync Upstream and Create PR
+
 on:
   schedule:
-    - cron: "0 17 * * *" # 每天运行 01:00 AM UTC+8
+    - cron: "0 17 * * *" # 每天午夜运行
   workflow_dispatch: # 允许手动触发
+
 jobs:
-  sync-upstream:
+  sync:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: Configure Git
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
+
       - name: Add Upstream Remote
+        run: git remote add upstream https://github.com/morytyann/OpenWrt-mihomo.git
+
+      - name: Fetch Upstream
+        run: git fetch upstream
+
+      - name: Create Sync Branch
+        run: git checkout -b sync-upstream-changes
+
+      - name: Sync Upstream Changes
         run: |
-          git remote add upstream https://github.com/morytyann/OpenWrt-mihomo.git
-      - name: Setup Sparse Checkout
-        run: |
-          git config core.sparsecheckout true
-          echo '/*' > .git/info/sparse-checkout
-          echo '!mihomo/Makefile' >> .git/info/sparse-checkout
-          echo '!luci-app-mihomo/Makefile' >> .git/info/sparse-checkout
-          echo '!.github/workflows' >> .git/info/sparse-checkout
-      - name: Fetch and Merge Upstream
-        run: |
-          git fetch upstream
-          git checkout Alpha
-          git merge upstream/main --allow-unrelated-histories
-      - name: Check for Changes
-        id: check_changes
-        run: |
-          if git diff --quiet && git diff --staged --quiet; then
-            echo "changes_made=false" >> $GITHUB_OUTPUT
-          else
-            echo "changes_made=true" >> $GITHUB_OUTPUT
+          # 创建一个新的合并提交，但不自动提交
+          git merge --no-commit --no-ff upstream/main
+
+          # 使用 git read-tree 来更新工作目录，排除不想要的文件和目录
+          git read-tree -mu HEAD:. upstream/main:. \
+            ':!mihomo/Makefile' \
+            ':!luci-app-mihomo/Makefile' \
+            ':!.github/workflows'
+
+          # 检查是否有变更
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+            exit 0
           fi
+
+          # 提交变更
+          git commit -m "Sync upstream changes"
+
+      - name: Push changes
+        run: git push origin sync-upstream-changes
+
       - name: Create Pull Request
-        if: steps.check_changes.outputs.changes_made == 'true'
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: Sync upstream changes
-          title: Sync Upstream Changes
+          title: "Sync changes from upstream repository"
           body: |
             This PR syncs changes from the upstream repository.
-            Automated changes by GitHub Actions.
+
+            Changes exclude:
+            - mihomo/Makefile
+            - luci-app-mihomo/Makefile
+            - .github/workflows/ directory
+
+            Please review and merge.
           branch: sync-upstream-changes
-          base: Alpha
-          delete-branch: true
-      - name: Check PR Status
-        if: steps.check_changes.outputs.changes_made == 'true'
-        run: |
-          echo "Pull Request created successfully."
-      - name: No Changes
-        if: steps.check_changes.outputs.changes_made == 'false'
-        run: |
-          echo "No changes were made. The repository is already up to date."
+          base: Alpha # 您的主分支名称，通常是 main 或 master
+          labels: automated pr, sync
+          draft: false
