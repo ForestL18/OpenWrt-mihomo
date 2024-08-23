@@ -27,11 +27,25 @@ jobs:
 
       - name: Merge Upstream
         run: |
-          git merge upstream/main --no-commit --no-ff
-          git reset -- mihomo/Makefile luci-app-mihomo/Makefile
-          git checkout -- mihomo/Makefile luci-app-mihomo/Makefile
-          git rm -r --cached .github/workflows
-          git checkout -- .github/workflows
+          # 备份要保持不变的文件和目录
+          cp mihomo/Makefile mihomo/Makefile.bak
+          cp luci-app-mihomo/Makefile luci-app-mihomo/Makefile.bak
+          cp -r .github/workflows .github/workflows.bak
+
+          # 合并上游更改
+          git merge -X theirs upstream/main --no-commit --no-ff
+
+          # 恢复指定的文件和目录
+          mv mihomo/Makefile.bak mihomo/Makefile
+          mv luci-app-mihomo/Makefile.bak luci-app-mihomo/Makefile
+          rm -rf .github/workflows
+          mv .github/workflows.bak .github/workflows
+
+          # 添加更改到暂存区
+          git add .
+
+          # 提交更改，如果有的话
+          git diff --cached --quiet || git commit -m "Sync with upstream"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
