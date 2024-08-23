@@ -31,11 +31,10 @@ jobs:
         run: git checkout -b sync-upstream-changes
 
       - name: Merge Upstream
+        env:
+          IGNORE_OPTIONS: -X ignore=mihomo/Makefile -X ignore=luci-app-mihomo/Makefile -X ignore=.github/workflows/
         run: |
-          git merge upstream/main --no-commit --no-ff \
-            -X ignore=mihomo/Makefile \
-            -X ignore=luci-app-mihomo/Makefile \
-            -X ignore=.github/workflows/
+          git merge upstream/main --no-commit --no-ff $IGNORE_OPTIONS
           git add .
           git diff --staged --quiet || git commit -m "Sync upstream changes"
 
