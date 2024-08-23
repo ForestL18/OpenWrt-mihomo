@@ -22,19 +22,15 @@ jobs:
       - name: Add Upstream Remote
         run: git remote add upstream https://github.com/morytyann/OpenWrt-mihomo.git
 
-      - name: Configure Sparse Checkout
-        run: |
-          git config core.sparsecheckout true
-          echo '/*' > .git/info/sparse-checkout
-          echo '!mihomo/Makefile' >> .git/info/sparse-checkout
-          echo '!luci-app-mihomo/Makefile' >> .git/info/sparse-checkout
-          echo '!.github/workflows' >> .git/info/sparse-checkout
-
       - name: Fetch and Merge Upstream
         run: |
           git fetch upstream
           git checkout -b sync-upstream
-          git merge upstream/main --allow-unrelated-histories
+          git read-tree -mu HEAD upstream/main
+          git reset upstream/main -- mihomo/Makefile luci-app-mihomo/Makefile .github/workflows
+          git checkout -- mihomo/Makefile luci-app-mihomo/Makefile
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Sync: Merge changes from upstream repository"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
@@ -44,5 +40,4 @@ jobs:
           base: main
           title: "Sync: Merge upstream changes"
           body: "Automated PR to sync changes from upstream repository"
-          commit-message: "Sync: Merge changes from upstream repository"
           delete-branch: true
