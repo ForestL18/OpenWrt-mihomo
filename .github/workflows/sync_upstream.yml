@@ -2,17 +2,18 @@ name: Sync Upstream and Create PR
 
 on:
   schedule:
-    - cron: "0 0 * * *" # 每天运行一次
+    - cron: "0 17 * * *" # 每天运行一次
   workflow_dispatch: # 允许手动触发
 
 jobs:
-  sync-upstream:
+  sync-and-pr:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # 获取完整历史记录
 
       - name: Configure Git
         run: |
@@ -25,26 +26,31 @@ jobs:
       - name: Fetch Upstream
         run: git fetch upstream
 
-      - name: Create and Switch to Sync Branch
-        run: git checkout -b sync-upstream
-
-      - name: Merge Upstream
+      - name: Sync Upstream Changes
         run: |
-          git read-tree -mu HEAD upstream/main
-          git reset upstream/main -- mihomo/Makefile luci-app-mihomo/Makefile .github/workflows
-          git checkout -- mihomo/Makefile luci-app-mihomo/Makefile
-          git add .
-          git diff-index --quiet HEAD || git commit -m "Sync: Merge changes from upstream repository"
+          git checkout main
+          git merge -X theirs --no-commit --no-ff upstream/main
 
-      - name: Push Changes
-        run: git push origin sync-upstream --force
+      - name: Restore Ignored Files and Directories
+        run: |
+          git checkout HEAD -- mihomo/Makefile luci-app-mihomo/Makefile
+          git restore --staged mihomo/Makefile luci-app-mihomo/Makefile
+          git checkout HEAD -- .github/workflows
+          git restore --staged .github/workflows
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Sync upstream changes
+          title: Sync changes from upstream repository
+          body: |
+            This PR syncs changes from the upstream repository.
+
+            Ignored files and directories:
+            - mihomo/Makefile
+            - luci-app-mihomo/Makefile
+            - .github/workflows/
           branch: sync-upstream
           base: Alpha
-          title: "Sync: Merge upstream changes"
-          body: "Automated PR to sync changes from upstream repository"
           delete-branch: true
