@@ -1,4 +1,6 @@
 .gitattributes merge=ours
 mihomo/Makefile merge=ours
+mihomo/files/mihomo.init merge=ours
+mihomo/files/capabilities.json merge=ours
 luci-app-mihomo/Makefile merge=ours
 .github/workflows/** merge=ours
