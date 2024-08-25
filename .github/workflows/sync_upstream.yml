@@ -36,9 +36,7 @@ jobs:
       # respect .gitattribute
       - name: Merge Upstream
         run: |
-          git rm --cached -r .
-          git reset --hard
-          git merge upstream/main --no-edit
+          git merge upstream/main --no-edit --renormalize
           git status
 
       - name: Create Pull Request
