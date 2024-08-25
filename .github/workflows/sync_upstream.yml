@@ -27,7 +27,7 @@ jobs:
       # respect .gitattribute
       - name: Merge Upstream
         run: |
-          git merge -X theirs upstream/main --no-edit
+          git merge upstream/main --no-edit
           git status
 
       - name: Create Pull Request
