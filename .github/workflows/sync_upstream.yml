@@ -24,19 +24,12 @@ jobs:
           git remote add upstream https://github.com/morytyann/OpenWrt-mihomo.git
           git fetch upstream
 
-      - name: Debug Before Merge
-        run: |
-          git --version
-          cat .gitattributes
-          git config --list
-
-      - name: Set Git attributes
-        run: git config --local core.attributesfile .gitattributes
-
       # respect .gitattribute
       - name: Merge Upstream
         run: |
-          git merge upstream/main --no-edit --renormalize
+          git check-attr -a mihomo/Makefile
+          git merge upstream/main --no-edit
+          git check-attr -a mihomo/Makefile
           git status
 
       - name: Create Pull Request
