@@ -2,7 +2,7 @@ name: Sync Upstream and Create PR
 
 on:
   schedule:
-    - cron: "0 17 * * *" # 每天运行一次
+    - cron: "0 17 * * *" # 每天运行一次 UTC+8 AM
   workflow_dispatch: # 允许手动触发
 
 jobs:
@@ -24,30 +24,19 @@ jobs:
           git remote add upstream https://github.com/morytyann/OpenWrt-mihomo.git
           git fetch upstream
 
+      # respect .gitattribute
       - name: Merge Upstream
         run: |
           git merge --no-commit --no-ff upstream/main
           git status
 
-      - name: Reset Excluded Files and Directory
-        run: |
-          git checkout HEAD -- mihomo/Makefile
-          git checkout HEAD -- luci-app-mihomo/Makefile
-          git checkout HEAD -- .github/workflows/
-          git checkout HEAD -- mihomo/files/mihomo.init
-          git status
-
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          title: Sync Upstream Changes
+          title: "Sync upstream changes"
           body: |
             This PR syncs changes from the upstream repository.
 
-            While preserving our local modifications as specified:
-            - mihomo/Makefile,
-            - luci-app-mihomo/Makefile,
-            - .github/workflows/
+            While preserving our local modifications as specified in .gitattributes.
           branch: sync-upstream
           base: Alpha
-          #delete-branch: true
