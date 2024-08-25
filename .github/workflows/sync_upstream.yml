@@ -20,6 +20,8 @@ jobs:
           git config user.email 'actions@github.com'
           git config core.attributesfile .gitattributes
           git config merge.ours.driver true
+          git sparse-checkout init --cone
+          git sparse-checkout set '/*' '!.github/workflows'
 
       - name: Fetch Upstream
         run: |
@@ -31,9 +33,6 @@ jobs:
         run: |
           git check-attr -a mihomo/files/mihomo.init
           git merge -X theirs --no-commit --no-ff upstream/main
-          git reset HEAD .github/workflows/
-          git checkout -- .github/workflows/
-          git check-attr -a mihomo/files/mihomo.init
           git status
 
       - name: Create Pull Request
