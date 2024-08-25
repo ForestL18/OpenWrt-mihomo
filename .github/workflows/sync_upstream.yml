@@ -26,7 +26,7 @@ jobs:
 
       - name: Merge Upstream
         run: |
-          git merge -X theirs upstream/main --no-edit
+          git merge --no-commit --no-ff upstream/main
           git status
 
       - name: Reset Excluded Files and Directory
