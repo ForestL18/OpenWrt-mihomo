@@ -27,9 +27,9 @@ jobs:
       # respect .gitattribute
       - name: Merge Upstream
         run: |
-          git merge upstream/main --no-commit --no-ff
-          git checkout --attr-only HEAD -- .
-          git add .
+          git merge upstream/main --no-edit
+          git checkout HEAD -- .
+          git add -A
           git status
 
       - name: Create Pull Request
