@@ -31,8 +31,8 @@ jobs:
         run: |
           git check-attr -a mihomo/files/mihomo.init
           git merge -X theirs --no-commit --no-ff upstream/main || true
-          git checkout HEAD -- .github/workflows/
-          git add .github/workflows
+          git reset HEAD .github/workflows/
+          git checkout -- .github/workflows/
           git status
 
       - name: Create Pull Request
