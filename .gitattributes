@@ -4,3 +4,4 @@ mihomo/files/mihomo.init merge=ours
 mihomo/files/capabilities.json merge=ours
 luci-app-mihomo/Makefile merge=ours
 .github/workflows/** merge=ours
+.github/workflows/update_mihomo_version.yaml merge=ours
