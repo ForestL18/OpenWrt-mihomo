@@ -24,12 +24,19 @@ jobs:
           git remote add upstream https://github.com/morytyann/OpenWrt-mihomo.git
           git fetch upstream
 
+      - name: Check .gitattributes
+        run: |
+          if [ -f .gitattributes ]; then
+            echo ".gitattributes file exists"
+            cat .gitattributes
+          else
+            echo ".gitattributes file not found"
+          fi
+
       # respect .gitattribute
       - name: Merge Upstream
         run: |
           git merge upstream/main --no-edit
-          git checkout HEAD -- .
-          git add -A
           git status
 
       - name: Create Pull Request
