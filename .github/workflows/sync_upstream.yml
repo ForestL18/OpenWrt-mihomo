@@ -30,6 +30,9 @@ jobs:
           cat .gitattributes
           git config --list
 
+      - name: Set Git attributes
+        run: git config --local core.attributesfile .gitattributes
+
       # respect .gitattribute
       - name: Merge Upstream
         run: |
