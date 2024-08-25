@@ -33,6 +33,7 @@ jobs:
           git merge -X theirs --no-commit --no-ff upstream/main || true
           git reset HEAD .github/workflows/
           git checkout -- .github/workflows/
+          git clean -fd .github/workflows/
           git status
 
       - name: Create Pull Request
