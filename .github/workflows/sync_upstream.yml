@@ -27,11 +27,12 @@ jobs:
       # respect .gitattribute
       - name: Merge Upstream
         run: |
-          git check-attr -a mihomo/Makefile
+          git config merge.ours.driver true
+          git config merge.mihomo/Makefile.driver true
+          git config merge.mihomo/files/mihomo.init.driver true
+          git config merge.luci-app-mihomo/Makefile.driver true
           git merge upstream/main --no-edit
-          git check-attr -a mihomo/Makefile
           git status
-          git diff HEAD~1 HEAD -- mihomo/Makefile
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
