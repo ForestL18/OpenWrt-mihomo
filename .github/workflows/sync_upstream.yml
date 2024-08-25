@@ -31,7 +31,6 @@ jobs:
         run: |
           git check-attr -a mihomo/files/mihomo.init
           git merge -X theirs --no-commit --no-ff upstream/main || true
-          git rm -f .github/workflows/update_mihomo_version.yaml || true
           git status
 
       - name: Create Pull Request
