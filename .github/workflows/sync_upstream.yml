@@ -30,8 +30,8 @@ jobs:
       - name: Merge Upstream
         run: |
           git check-attr -a mihomo/files/mihomo.init
-          git merge --no-commit --no-ff upstream/main
-          git rm .github/workflows/update_mihomo_version.yaml
+          git merge -X ours .github/workflows/update_mihomo_version.yaml
+          git merge -X theirs --no-commit --no-ff upstream/main
           git check-attr -a mihomo/files/mihomo.init
           git status
 
