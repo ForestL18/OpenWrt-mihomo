@@ -28,7 +28,9 @@ jobs:
       # respect .gitattribute
       - name: Merge Upstream
         run: |
+          git check-attr -a mihomo/files/mihomo.init
           git merge --no-commit --no-ff upstream/main
+          git check-attr -a mihomo/files/mihomo.init
           git status
 
       - name: Create Pull Request
