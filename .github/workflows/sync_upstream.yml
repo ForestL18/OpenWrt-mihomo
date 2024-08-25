@@ -21,7 +21,7 @@ jobs:
           git config core.attributesfile .gitattributes
           git config merge.ours.driver true
           git sparse-checkout init --cone
-          git sparse-checkout set '/*' '!.github/workflows'
+          git sparse-checkout set '!.github/workflows'
 
       - name: Fetch Upstream
         run: |
