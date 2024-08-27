@@ -1,8 +1,8 @@
 ![GitHub License](https://img.shields.io/github/license/morytyann/OpenWrt-mihomo?style=for-the-badge) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/morytyann/OpenWrt-mihomo/release.yaml?style=for-the-badge&label=release) ![GitHub Tag](https://img.shields.io/github/v/tag/morytyann/OpenWrt-mihomo?style=for-the-badge) ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/morytyann/OpenWrt-mihomo/total?style=for-the-badge) ![GitHub Repo stars](https://img.shields.io/github/stars/morytyann/OpenWrt-mihomo?style=for-the-badge)
 
-# MihomoTProxy
+# MiH4O
 
-Transparent Proxy with Mihomo on OpenWrt.
+Mihomo For OpenWrt.
 
 ## Feature
  - Transparent Proxy (TPROXY/TUN, IPv4 and/or IPv6)
