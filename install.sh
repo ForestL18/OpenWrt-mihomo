@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# MihomoTProxy's installer
+# MiH4O's installer
 
 # check env
 echo "Checking..."
