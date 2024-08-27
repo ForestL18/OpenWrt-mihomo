@@ -24,7 +24,7 @@ jobs:
       - name: Fetch Upstream
         run: |
           git remote add upstream https://github.com/morytyann/OpenWrt-mihomo.git
-          git fetch upstream
+          git fetch upstream main
 
       # respect .gitattribute
       - name: Merge Upstream
