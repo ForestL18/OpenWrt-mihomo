@@ -1,8 +1,8 @@
 name: Sync Upstream and Create PR
 
 on:
-  schedule:
-    - cron: "0 17 * * *" # 每天运行一次 UTC+8 AM
+  #schedule:
+    #- cron: "0 17 * * *" # 每天运行一次 UTC+8 AM
   workflow_dispatch: # 允许手动触发
 
 jobs:
