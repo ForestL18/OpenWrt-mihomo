@@ -1,0 +1,41 @@
+name: Sync Upstream for Review
+
+on:
+  schedule:
+    - cron: "0 17 * * *" # 每天运行一次 UTC+8 AM
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  sync-upstream-for-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name 'GitHub Actions'
+          git config user.email 'actions@github.com'
+
+      - name: Fetch Upstream
+        run: |
+          git remote add upstream https://github.com/morytyann/OpenWrt-mihomo.git
+          git fetch upstream main
+
+      # respect .gitattribute
+      - name: Merge Upstream
+        run: |
+          git merge -X theirs --no-commit --no-ff upstream/main
+          git status
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          title: "Sync upstream changes"
+          body: |
+            This PR syncs changes from the upstream repository.
+
+          branch: sync-upstream-for-review
+          base: main
