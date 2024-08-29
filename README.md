@@ -4,6 +4,9 @@
 
 Transparent Proxy with Mihomo on OpenWrt.
 
+> [!WARNING]
+> - Only support firewall4, it means your OpenWrt version needs to be 22.03 or above
+
 ## Feature
  - Transparent Proxy (TPROXY/TUN, IPv4 and/or IPv6)
  - Access Control
@@ -56,6 +59,3 @@ The ipk file will be found under `bin/packages/your_architecture/mihomo`.
 - kmod-tun
 
 
-## Warning
-
-- Only support firewall4 and will never support firewall3
