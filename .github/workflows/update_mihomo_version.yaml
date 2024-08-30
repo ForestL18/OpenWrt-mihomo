@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ForestL18/OpenWrt-mihomo
-          ref: main
+          ref: test
           fetch-depth: 0
           path: OpenWrt-mihomo
       - id: get_current_info
@@ -57,8 +57,8 @@ jobs:
         name: Checkout
         uses: actions/checkout@v4
         with:
-          repository: morytyann/OpenWrt-mihomo
-          ref: main
+          repository: ForestL18/OpenWrt-mihomo
+          ref: test
           fetch-depth: 0
           path: OpenWrt-mihomo
       - id: update
