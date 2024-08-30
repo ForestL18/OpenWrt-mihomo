@@ -138,6 +138,9 @@ fast_reload=$(uci -q get mihomo.config.fast_reload); [ -z "$fast_reload" ] && uc
 # add mihomo.mixin.ipv6
 ipv6=$(uci -q get mihomo.mixin.ipv6); [ -z "$ipv6" ] && uci set mihomo.mixin.ipv6=$(uci -q get mihomo.proxy.ipv6_proxy)
 
+# add mihomo.proxy.redirect_tcp
+redirect_tcp==$(uci -q get mihomo.proxy.redirect_tcp); [ -z "$redirect_tcp" ] && uci set mihomo.proxy.redirect_tcp=1
+
 # commit
 uci commit mihomo
 
