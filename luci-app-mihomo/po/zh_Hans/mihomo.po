@@ -100,6 +100,9 @@ msgstr "TPROXY 模式"
 msgid "TUN Mode"
 msgstr "TUN 模式"
 
+msgid "Redirect TCP"
+msgstr "重定向 TCP"
+
 msgid "IPv4 DNS Hijack"
 msgstr "IPv4 DNS 劫持"
 
