@@ -129,20 +129,65 @@ table inet mihomo {
 		meta nfproto @proxy_nfproto meta l4proto { tcp, udp } meta mark set mark xor $FW_MARK counter
 	}
 
+	chain all_redirtcp {
+		meta nfproto @proxy_nfproto meta l4proto tcp counter redirect to :$REDIR_PORT
+	}
+
+	chain allow_redirtcp {
+		meta nfproto @proxy_nfproto meta l4proto tcp ip saddr @acl_ip counter redirect to :$REDIR_PORT
+		meta nfproto @proxy_nfproto meta l4proto tcp ip6 saddr @acl_ip6 counter redirect to :$REDIR_PORT
+		meta nfproto @proxy_nfproto meta l4proto tcp ether saddr @acl_mac counter redirect to :$REDIR_PORT
+	}
+
+	chain block_redirtcp {
+		meta nfproto @proxy_nfproto meta l4proto tcp ip saddr @acl_ip counter return
+		meta nfproto @proxy_nfproto meta l4proto tcp ip6 saddr @acl_ip6 counter return
+		meta nfproto @proxy_nfproto meta l4proto tcp ether saddr @acl_mac counter return
+		meta nfproto @proxy_nfproto meta l4proto tcp counter redirect to :$REDIR_PORT
+	}
+
+	chain router_redirtcp {
+		meta nfproto @proxy_nfproto meta l4proto tcp meta skuid != $MIHOMO_USER counter redirect to :$REDIR_PORT
+	}
+
 	chain router_reroute {
 		meta nfproto @proxy_nfproto meta l4proto { tcp, udp } meta mark set mark xor $FW_MARK counter accept
 	}
 
 	chain dstnat {
 		type nat hook prerouting priority dstnat + 1; policy accept;
+
+		ip daddr @reserved_ip counter return
+		ip6 daddr @reserved_ip6 counter return
+		ip daddr @wan_ip counter return
+		ip6 daddr @wan_ip6 counter return
+		ct reply ip saddr @wan_ip counter return
+		ct reply ip6 saddr @wan_ip6 counter return
+		ip daddr @china_ip counter return
+		ip6 daddr @china_ip6 counter return
+		meta l4proto . th dport != @acl_dport ip daddr != @fake_ip counter return
+		meta nfproto ipv6 meta l4proto . th dport != @acl_dport counter return
 	}
 
 	chain nat_output {
 		type nat hook output priority filter; policy accept;
+
+		meta skuid $MIHOMO_USER counter return
+		ip daddr @reserved_ip counter return
+		ip6 daddr @reserved_ip6 counter return
+		ip daddr @wan_ip counter return
+		ip6 daddr @wan_ip6 counter return
+		ct reply ip saddr @wan_ip counter return
+		ct reply ip6 saddr @wan_ip6 counter return
+		ip daddr @china_ip counter return
+		ip6 daddr @china_ip6 counter return
+		meta l4proto . th dport != @acl_dport ip daddr != @fake_ip counter return
+		meta nfproto ipv6 meta l4proto . th dport != @acl_dport counter return
 	}
 
 	chain mangle_prerouting {
 		type filter hook prerouting priority mangle; policy accept;
+
 		meta nfproto @proxy_nfproto meta l4proto { tcp, udp } iifname lo meta mark $FW_MARK tproxy to :$TPROXY_PORT counter accept comment "For Router TPROXY"
 		meta nfproto @proxy_nfproto meta l4proto { tcp, udp } iifname $TUN_DEVICE meta mark $FW_MARK counter return comment "For Router TUN"
 		ip daddr @reserved_ip counter return
@@ -160,6 +205,7 @@ table inet mihomo {
 
 	chain mangle_output {
 		type route hook output priority mangle; policy accept;
+
 		meta skuid $MIHOMO_USER counter return
 		ip daddr @reserved_ip counter return
 		ip6 daddr @reserved_ip6 counter return
