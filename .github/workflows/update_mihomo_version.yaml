@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ForestL18/OpenWrt-mihomo
-          ref: test
+          ref: beta
           fetch-depth: 0
           path: OpenWrt-mihomo
       - id: get_current_info
@@ -35,10 +35,10 @@ jobs:
         name: Checkout
         uses: actions/checkout@v4
         with:
-          repository: 'MetaCubeX/mihomo'
-          ref: 'Alpha'
+          repository: "MetaCubeX/mihomo"
+          ref: "Alpha"
           fetch-depth: 0
-          path: 'mihomo'
+          path: "mihomo"
       - id: get_lastest_info
         name: Get Latest Info
         run: |
@@ -58,7 +58,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ForestL18/OpenWrt-mihomo
-          ref: test
+          ref: beta
           fetch-depth: 0
           path: OpenWrt-mihomo
       - id: update
@@ -84,4 +84,3 @@ jobs:
             To:
             - PKG_SOURCE_VERSION: `${{ needs.get_lastest_info.outputs.commit_sha }}`
             - PKG_MIRROR_HASH: `${{ needs.get_lastest_info.outputs.checksum }}`
-        

@@ -14,6 +14,7 @@ result=0
 # traverse architectures
 while read arch; do
 	echo "$arch: start"
+
 	# download
 	tarball="mihomo_${arch}.tar.gz"
 	echo "$arch: download tarball"
@@ -21,18 +22,21 @@ while read arch; do
 	if [ "$?" != 0 ]; then
 		continue
 	fi
+
 	# extract
 	echo "$arch: extract tarball"
 	tar -zxf "$tarball" > /dev/null 2>&1
 	if [ "$?" != 0 ]; then
 		continue
 	fi
+
 	# install
 	echo "$arch: install ipks"
 	opkg install mihomo_*.ipk > /dev/null 2>&1 && opkg install luci-app-mihomo_*.ipk > /dev/null 2>&1 && opkg install luci-i18n-mihomo-zh-cn_*.ipk > /dev/null 2>&1
 	if [ "$?" != 0 ]; then
 		continue
 	fi
+	
  	# success
 	echo "Success Install/Update with arch: $arch"
 	result=1
