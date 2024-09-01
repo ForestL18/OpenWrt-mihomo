@@ -312,7 +312,15 @@ start_service() {
 				ip -6 rule add pref "$RULE_PREF" fwmark "$FW_MARK/$FW_MARK_MASK" table "$ROUTE_TABLE"
 			fi
 		fi
-		nft -f "$HIJACK_NFT" -D FW_MARK="$FW_MARK" -D FW_MARK_MASK="$FW_MARK_MASK" -D TUN_DEVICE="$TUN_DEVICE" -D MIHOMO_USER="$MIHOMO_USER" -D TPROXY_PORT="$tproxy_port" -D DNS_PORT="$dns_port" -D REDIR_PORT="$redir_port"
+		nft -f "$HIJACK_NFT" \
+			-D FW_MARK="$FW_MARK" \
+			-D FW_MARK_MASK="$FW_MARK_MASK" \
+			-D TUN_DEVICE="$TUN_DEVICE" \
+			-D MIHOMO_USER="$MIHOMO_USER" \
+			-D TPROXY_PORT="$tproxy_port" \
+			-D DNS_PORT="$dns_port" \
+			-D REDIR_PORT="$redir_port"
+
 		nft -f "$RESERVED_IP_NFT"
 		nft -f "$RESERVED_IP6_NFT"
 		# dns hijack
