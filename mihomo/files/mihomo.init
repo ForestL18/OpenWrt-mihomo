@@ -587,15 +587,3 @@ add_acl_ip6() {
 add_acl_mac() {
 	nft add element inet "$FW_TABLE" acl_mac \{ "$1" \}
 }
-
-add_wan_inbound_exclusions() {
-	config_list_foreach "proxy" "wan_interfaces" add_wan_inbound_exclusion
-	config_list_foreach "proxy" "wan6_interfaces" add_wan_inbound_exclusion
-}
-
-add_wan_inbound_exclusion() {
-	local wan_interface; wan_interface=$1
-	local wan_device
-	network_get_device wan_device "$wan_interface"
-	nft add element inet "$FW_TABLE" wan_device \{ "$wan_device" \}
-}
