@@ -196,10 +196,10 @@ return view.extend({
             var val = ev.target.value;
             if (val === 'tun') {
                 redirect_tcp.updateDefaultValue('1');
-                redirect_tcp.setVisible(true);
+                //redirect_tcp.setVisible(true);
             } else {
                 redirect_tcp.updateDefaultValue('0');
-                redirect_tcp.setVisible(false);
+                //redirect_tcp.setVisible(false);
             }
         }
 
