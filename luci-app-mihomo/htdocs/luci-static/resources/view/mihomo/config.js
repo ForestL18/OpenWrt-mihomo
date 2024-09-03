@@ -286,7 +286,7 @@ return view.extend({
         o = s.taboption('general', form.Flag, 'ipv6', _('IPv6'));
         o.rmempty = false;
 
-        o = s.taboption('general', form.Flag, 'disable_keep_alive', _('Disable Keep Alive'));
+        o = s.taboption('general', form.Flag, 'tcp_disable_keep_alive', _('TCP Disable Keep Alive'));
         o.rmempty = false;
 
         o = s.taboption('general', form.Value, 'tcp_keep_alive_idle', _('TCP Keep Alive Idle'));
