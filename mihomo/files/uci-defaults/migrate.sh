@@ -3,6 +3,8 @@
 . "$IPKG_INSTROOT/etc/mihomo/scripts/constants.sh"
 
 # since 1.8.0
+## add mihomo.mixin.disable_keep_alive
+disable_keep_alive=$(uci -q get mihomo.mixin.disable_keep_alive); [ -z "$disable_keep_alive" ] && uci set mihomo.mixin.disable_keep_alive=0
 
 ## add mihomo.mixin.tcp_keep_alive_idle
 tcp_keep_alive_idle=$(uci -q get mihomo.mixin.tcp_keep_alive_idle); [ -z "$tcp_keep_alive_idle" ] && uci set mihomo.mixin.tcp_keep_alive_idle=600
