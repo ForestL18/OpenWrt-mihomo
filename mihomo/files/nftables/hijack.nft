@@ -83,6 +83,23 @@ table inet mihomo {
 		meta nfproto @dns_hijack_nfproto meta l4proto { tcp, udp } th dport 53 counter redirect to :$DNS_PORT
 	}
 
+	chain all_redirect {
+		meta nfproto @proxy_nfproto meta l4proto { tcp, udp } counter redirect to :$REDIR_PORT
+	}
+
+	chain allow_redirect {
+		meta nfproto @proxy_nfproto meta l4proto { tcp, udp } ip saddr @acl_ip counter redirect to :$REDIR_PORT
+		meta nfproto @proxy_nfproto meta l4proto { tcp, udp } ip6 saddr @acl_ip6 counter redirect to :$REDIR_PORT
+		meta nfproto @proxy_nfproto meta l4proto { tcp, udp } ether saddr @acl_mac counter redirect to :$REDIR_PORT
+	}
+
+	chain block_redirect {
+		meta nfproto @proxy_nfproto meta l4proto { tcp, udp } ip saddr @acl_ip counter return
+		meta nfproto @proxy_nfproto meta l4proto { tcp, udp } ip6 saddr @acl_ip6 counter return
+		meta nfproto @proxy_nfproto meta l4proto { tcp, udp } ether saddr @acl_mac counter return
+		meta nfproto @proxy_nfproto meta l4proto { tcp, udp } counter redirect to :$REDIR_PORT
+	}
+
 	chain all_tproxy {
 		meta nfproto @proxy_nfproto meta l4proto { tcp, udp } meta mark set mark ^ $FW_MARK tproxy to :$TPROXY_PORT counter accept
 	}
@@ -117,25 +134,8 @@ table inet mihomo {
 		meta nfproto @proxy_nfproto meta l4proto { tcp, udp } meta mark set mark ^ $FW_MARK counter
 	}
 
-	chain all_redirtcp {
-		meta nfproto @proxy_nfproto meta l4proto tcp counter redirect to :$REDIR_PORT
-	}
-
-	chain allow_redirtcp {
-		meta nfproto @proxy_nfproto meta l4proto tcp ip saddr @acl_ip counter redirect to :$REDIR_PORT
-		meta nfproto @proxy_nfproto meta l4proto tcp ip6 saddr @acl_ip6 counter redirect to :$REDIR_PORT
-		meta nfproto @proxy_nfproto meta l4proto tcp ether saddr @acl_mac counter redirect to :$REDIR_PORT
-	}
-
-	chain block_redirtcp {
-		meta nfproto @proxy_nfproto meta l4proto tcp ip saddr @acl_ip counter return
-		meta nfproto @proxy_nfproto meta l4proto tcp ip6 saddr @acl_ip6 counter return
-		meta nfproto @proxy_nfproto meta l4proto tcp ether saddr @acl_mac counter return
-		meta nfproto @proxy_nfproto meta l4proto tcp counter redirect to :$REDIR_PORT
-	}
-
-	chain router_redirtcp {
-		meta nfproto @proxy_nfproto meta l4proto tcp counter redirect to :$REDIR_PORT
+	chain router_redirect {
+		meta nfproto @proxy_nfproto meta l4proto { tcp, udp } counter redirect to :$REDIR_PORT
 	}
 
 	chain router_reroute {

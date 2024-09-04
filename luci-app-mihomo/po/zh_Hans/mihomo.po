@@ -94,6 +94,15 @@ msgstr "代理配置"
 msgid "Transparent Proxy"
 msgstr "透明代理"
 
+msgid "TCP Proxy Mode"
+msgstr "TCP 代理模式"
+
+msgid "UDP Proxy Mode"
+msgstr "UDP 代理模式"
+
+msgid "Redirect Mode"
+msgstr "Redirect 模式"
+
 msgid "TPROXY Mode"
 msgstr "TPROXY 模式"
 
@@ -162,6 +171,9 @@ msgstr "订阅链接"
 
 msgid "User Agent"
 msgstr "用户代理（UA）"
+
+msgid "Expand Ruleset"
+msgstr "展开规则集"
 
 msgid "Mixin Config"
 msgstr "混入配置"
@@ -299,7 +311,7 @@ msgid "Fake-IP Cache"
 msgstr "Fake-IP 缓存"
 
 msgid "Respect Rules"
-msgstr "遵循路由规则"
+msgstr "遵循分流规则"
 
 msgid "Use System Hosts"
 msgstr "使用系统的 Hosts"

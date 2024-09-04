@@ -7,7 +7,7 @@
 'require rpc';
 'require poll';
 'require tools.widgets as widgets';
-'require tools.mihomo as mihomo'
+'require tools.mihomo as mihomo';
 
 function renderStatus(running) {
     return updateStatus(E('input', { id: 'core_status', style: 'border: unset; font-style: italic; font-weight: bold;', readonly: '' }), running);
@@ -140,24 +140,14 @@ return view.extend({
         o = s.taboption('transparent_proxy', form.Flag, 'transparent_proxy', _('Enable'));
         o.rmempty = false;
 
-        o = s.taboption('transparent_proxy', form.ListValue, 'transparent_proxy_mode', _('Mode'));
+        o = s.taboption('transparent_proxy', form.ListValue, 'tcp_transparent_proxy_mode', _('TCP Proxy Mode'));
+        o.value('redirect', _('Redirect Mode'));
         o.value('tproxy', _('TPROXY Mode'));
         o.value('tun', _('TUN Mode'));
 
-        var redirect_tcp = s.taboption('transparent_proxy', form.Flag, 'redirect_tcp', _('Redirect TCP'));
-        redirect_tcp.rmempty = false;
-        redirect_tcp.depends('transparent_proxy_mode', 'tun');
-
-        o.onchange = function (ev, section_id) {
-            var val = ev.target.value;
-            if (val === 'tun') {
-                redirect_tcp.updateDefaultValue('1');
-                //redirect_tcp.setVisible(true);
-            } else {
-                redirect_tcp.updateDefaultValue('0');
-                //redirect_tcp.setVisible(false);
-            }
-        }
+        o = s.taboption('transparent_proxy', form.ListValue, 'udp_transparent_proxy_mode', _('UDP Proxy Mode'));
+        o.value('tproxy', _('TPROXY Mode'));
+        o.value('tun', _('TUN Mode'));
 
         o = s.taboption('transparent_proxy', form.Flag, 'ipv4_dns_hijack', _('IPv4 DNS Hijack'));
         o.rmempty = false;
