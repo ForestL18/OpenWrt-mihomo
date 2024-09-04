@@ -203,7 +203,7 @@ start_service() {
 		fi
 	fi
 	if [ "$tun_enable" == 1 ]; then
-		yq -M -i '.tun.auto-route = false | .tun.auto-redirect = false | .tun.auto-detect-interface = false | del(.tun.dns-hijack)' "$RUN_PROFILE_PATH"
+		yq -M -i '.tun.auto-route = false | .tun.auto-redirect = false | .tun.auto-detect-interface = false | .tun.dns-hijack = []' "$RUN_PROFILE_PATH"
 	fi
 	if [ -n "$outbound_interface" ]; then
 		local outbound_device
