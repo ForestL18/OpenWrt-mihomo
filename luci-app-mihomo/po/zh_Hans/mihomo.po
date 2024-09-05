@@ -172,9 +172,6 @@ msgstr "订阅链接"
 msgid "User Agent"
 msgstr "用户代理（UA）"
 
-msgid "Expand Ruleset"
-msgstr "展开规则集"
-
 msgid "Mixin Config"
 msgstr "混入配置"
 
