@@ -170,8 +170,8 @@ table inet mihomo {
 	}
 
 	chain mangle_prerouting {
-
 		type filter hook prerouting priority mangle; policy accept;
+
 		meta l4proto { tcp, udp } iifname lo meta mark & $FW_MARK_MASK == $FW_MARK tproxy to :$TPROXY_PORT counter accept
 		meta l4proto { tcp, udp } iifname $TUN_DEVICE counter return
 		fib daddr type local counter return

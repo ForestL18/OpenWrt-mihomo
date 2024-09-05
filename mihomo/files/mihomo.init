@@ -248,53 +248,51 @@ start_service() {
 		log "Transparent Proxy is enabled."
 		log "Transparent Proxy: Start hijack."
 		# prepare
-		if [ "$router_proxy" == 1 ]; then
-			if [ "$tproxy_enable" == 1 ]; then
-				ip route add local default dev lo table "$TPROXY_ROUTE_TABLE"
+		if [ "$tproxy_enable" == 1 ]; then
+			ip route add local default dev lo table "$TPROXY_ROUTE_TABLE"
+		fi
+		if [ "$tun_enable" == 1 ]; then
+			ip tuntap add dev "$TUN_DEVICE" mode tun vnet_hdr
+			ip link set "$TUN_DEVICE" up
+			ip route add unicast default dev $TUN_DEVICE table "$TUN_ROUTE_TABLE"
+			$TUN_SH
+		fi
+		local tcp_route_table
+		if [ "$tcp_transparent_proxy_mode" == "tproxy" ]; then
+			tcp_route_table="$TPROXY_ROUTE_TABLE"
+		elif [ "$tcp_transparent_proxy_mode" == "tun" ]; then
+			tcp_route_table="$TUN_ROUTE_TABLE"
+		fi
+		if [ -n "$tcp_route_table" ]; then
+			if [ "$ipv4_proxy" == 1 ]; then
+				ip rule add pref "$TCP_RULE_PREF" fwmark "$FW_MARK/$FW_MARK_MASK" ipproto tcp table "$tcp_route_table"
 			fi
-			if [ "$tun_enable" == 1 ]; then
-				ip tuntap add dev "$TUN_DEVICE" mode tun vnet_hdr
-				ip link set "$TUN_DEVICE" up
-				ip route add unicast default dev $TUN_DEVICE table "$TUN_ROUTE_TABLE"
-				$TUN_SH
+			if [ "$ipv6_proxy" == 1 ]; then
+				ip -6 rule add pref "$TCP_RULE_PREF" fwmark "$FW_MARK/$FW_MARK_MASK" ipproto tcp table "$tcp_route_table"
 			fi
-			local tcp_route_table
-			if [ "$tcp_transparent_proxy_mode" == "tproxy" ]; then
-				tcp_route_table="$TPROXY_ROUTE_TABLE"
-			elif [ "$tcp_transparent_proxy_mode" == "tun" ]; then
-				tcp_route_table="$TUN_ROUTE_TABLE"
+		fi
+		local udp_route_table
+		if [ "$udp_transparent_proxy_mode" == "tproxy" ]; then
+			udp_route_table="$TPROXY_ROUTE_TABLE"
+		elif [ "$udp_transparent_proxy_mode" == "tun" ]; then
+			udp_route_table="$TUN_ROUTE_TABLE"
+		fi
+		if [ -n "$udp_route_table" ]; then
+			if [ "$ipv4_proxy" == 1 ]; then
+				ip rule add pref "$UDP_RULE_PREF" fwmark "$FW_MARK/$FW_MARK_MASK" ipproto udp table "$udp_route_table"
 			fi
-			if [ -n "$tcp_route_table" ]; then
-				if [ "$ipv4_proxy" == 1 ]; then
-					ip rule add pref "$TCP_RULE_PREF" fwmark "$FW_MARK/$FW_MARK_MASK" ipproto tcp table "$tcp_route_table"
-				fi
-				if [ "$ipv6_proxy" == 1 ]; then
-					ip -6 rule add pref "$TCP_RULE_PREF" fwmark "$FW_MARK/$FW_MARK_MASK" ipproto tcp table "$tcp_route_table"
-				fi
-			fi
-			local udp_route_table
-			if [ "$udp_transparent_proxy_mode" == "tproxy" ]; then
-				udp_route_table="$TPROXY_ROUTE_TABLE"
-			elif [ "$udp_transparent_proxy_mode" == "tun" ]; then
-				udp_route_table="$TUN_ROUTE_TABLE"
-			fi
-			if [ -n "$udp_route_table" ]; then
-				if [ "$ipv4_proxy" == 1 ]; then
-					ip rule add pref "$UDP_RULE_PREF" fwmark "$FW_MARK/$FW_MARK_MASK" ipproto udp table "$udp_route_table"
-				fi
-				if [ "$ipv6_proxy" == 1 ]; then
-					ip -6 rule add pref "$UDP_RULE_PREF" fwmark "$FW_MARK/$FW_MARK_MASK" ipproto udp table "$udp_route_table"
-				fi
+			if [ "$ipv6_proxy" == 1 ]; then
+				ip -6 rule add pref "$UDP_RULE_PREF" fwmark "$FW_MARK/$FW_MARK_MASK" ipproto udp table "$udp_route_table"
 			fi
 		fi
 		nft -f "$HIJACK_NFT" \
-			-D FW_MARK="$FW_MARK" \
+		    -D FW_MARK="$FW_MARK" \
 			-D FW_MARK_MASK="$FW_MARK_MASK" \
-			-D TUN_DEVICE="$TUN_DEVICE" \
 			-D MIHOMO_USER="$MIHOMO_USER" \
-			-D TPROXY_PORT="$tproxy_port" \
+			-D TUN_DEVICE="$TUN_DEVICE" \
 			-D DNS_PORT="$dns_port" \
-			-D REDIR_PORT="$redir_port"
+			-D REDIR_PORT="$redir_port" \
+			-D TPROXY_PORT="$tproxy_port"
 
 		nft -f "$RESERVED_IP_NFT"
 		nft -f "$RESERVED_IP6_NFT"
