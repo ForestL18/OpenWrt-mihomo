@@ -16,8 +16,8 @@ jobs:
         name: Checkout
         uses: actions/checkout@v4
         with:
-          repository: morytyann/OpenWrt-mihomo
-          ref: main
+          repository: ForestL18/OpenWrt-mihomo
+          ref: beta
           fetch-depth: 0
           path: OpenWrt-mihomo
       - id: get_current_info
@@ -57,8 +57,8 @@ jobs:
         name: Checkout
         uses: actions/checkout@v4
         with:
-          repository: morytyann/OpenWrt-mihomo
-          ref: main
+          repository: ForestL18/OpenWrt-mihomo
+          ref: beta
           fetch-depth: 0
           path: OpenWrt-mihomo
       - id: update
@@ -84,4 +84,3 @@ jobs:
             To:
             - PKG_SOURCE_VERSION: `${{ needs.get_lastest_info.outputs.commit_sha }}`
             - PKG_MIRROR_HASH: `${{ needs.get_lastest_info.outputs.checksum }}`
-        

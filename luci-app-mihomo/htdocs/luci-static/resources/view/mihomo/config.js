@@ -249,7 +249,7 @@ return view.extend({
         o.value('clash');
 
         s = m.section(form.NamedSection, 'mixin', 'mixin', _('Mixin Config'));
-    
+
         s.tab('general', _('General Config'));
 
         o = s.taboption('general', form.ListValue, 'log_level', _('Log Level'));
@@ -274,6 +274,9 @@ return view.extend({
         o.rmempty = false;
 
         o = s.taboption('general', form.Flag, 'ipv6', _('IPv6'));
+        o.rmempty = false;
+
+        o = s.taboption('general', form.Flag, 'tcp_disable_keep_alive', _('TCP Disable Keep Alive'));
         o.rmempty = false;
 
         o = s.taboption('general', form.Value, 'tcp_keep_alive_idle', _('TCP Keep Alive Idle'));
