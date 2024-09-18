@@ -5,9 +5,9 @@ PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/MetaCubeX/mihomo.git
-PKG_SOURCE_DATE:=2024-09-11
-PKG_SOURCE_VERSION:=4c3fe98ebd85bc995320c99baa5937f9cd67aeaf
-PKG_MIRROR_HASH:=9495f6746afbc31f35267b5ef0f6439056b820c9944499826be6b34dbdf83192
+PKG_SOURCE_DATE:=2024-09-17
+PKG_SOURCE_VERSION:=fb4d3c41c81c378d7b1c680bf4941cccf9f77ffa
+PKG_MIRROR_HASH:=7d18fb6af62fa3603355cb80eca8f57e5d8f76e6870a6a8403590ff1206c2678
 
 PKG_LICENSE:=MIT
 PKG_MAINTAINER:=Joseph Mory <morytyann@gmail.com>
@@ -16,7 +16,7 @@ PKG_BUILD_DEPENDS:=golang/host
 PKG_BUILD_PARALLEL:=1
 PKG_BUILD_FLAGS:=no-mips16
 
-PKG_BUILD_VERSION:=alpha-$(shell printf '%.8s' $(PKG_SOURCE_VERSION))
+PKG_BUILD_VERSION:=alpha-fb4d3c4
 PKG_BUILD_TIME:=$(shell date -u -Iseconds)
 
 GO_PKG:=github.com/metacubex/mihomo
@@ -31,12 +31,12 @@ define Package/mihomo
   CATEGORY:=Network
   TITLE:=A rule based proxy in Go.
   URL:=https://wiki.metacubex.one
-  DEPENDS:=$(GO_ARCH_DEPENDS) +ca-bundle +curl +yq firewall4 +kmod-nft-tproxy +ip-full +kmod-tun
+  DEPENDS:=$(GO_ARCH_DEPENDS) +ca-bundle +curl +yq firewall4 +kmod-nft-tproxy +ip-full +kmod-tun +procd-ujail
   USERID:=mihomo=7890:mihomo=7890
 endef
 
 define Package/mihomo/description
- A rule based proxy in Go.
+  A rule based proxy in Go.
 endef
 
 define Package/mihomo/conffiles
