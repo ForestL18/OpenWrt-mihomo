@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    name: ${{ matrix.arch }}-${{ matrix.release }} build
+    name: ${{ matrix.arch }} build
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -30,25 +30,21 @@ jobs:
           #- mips64_octeonplus
           #- i386_pentium4
           - x86_64
-        release:
-          - openwrt-23.05
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Build
         uses: ForestL18/gh-action-sdk@main
         env:
-          ARCH: ${{ matrix.arch }}-${{ matrix.release }}
-          FEEDNAME: mihomo_openwrt
+          ARCH: ${{ matrix.arch }}
+          FEEDNAME: mihomo
           PACKAGES: luci-app-mihomo
           NO_REFRESH_CHECK: true
 
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.arch }}-${{ matrix.release }}
-          path: bin/packages/${{ matrix.arch }}/mihomo_openwrt/*.ipk
+          name: mihomo_${{ matrix.arch }}
+          path: bin/packages/${{ matrix.arch }}/mihomo/*.ipk
