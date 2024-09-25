@@ -8,31 +8,33 @@ on:
 
 jobs:
   build:
-    name: ${{ matrix.arch }} build
+    name: ${{ matrix.arch }}-${{ matrix.release }} build
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         arch:
-          - arm_cortex-a5_vfpv4
-          - arm_cortex-a7_neon-vfpv4
-          - arm_cortex-a8_vfpv3
-          - arm_cortex-a9
-          - arm_cortex-a9_vfpv3-d16
-          - arm_cortex-a9_neon
-          - arm_cortex-a15_neon-vfpv4
-          - aarch64_cortex-a53
-          - aarch64_cortex-a72
+          #- arm_cortex-a5_vfpv4
+          #- arm_cortex-a7_neon-vfpv4
+          #- arm_cortex-a8_vfpv3
+          #- arm_cortex-a9
+          #- arm_cortex-a9_vfpv3-d16
+          #- arm_cortex-a9_neon
+          #- arm_cortex-a15_neon-vfpv4
+          #- aarch64_cortex-a53
+          #- aarch64_cortex-a72
           - aarch64_generic
-          - mips_24kc
-          - mips_4kec
-          - mips_mips32
-          - mipsel_24kc
-          - mipsel_24kc_24kf
-          - mipsel_74kc
-          - mips64_octeonplus
-          - i386_pentium4
+          #- mips_24kc
+          #- mips_4kec
+          #- mips_mips32
+          #- mipsel_24kc
+          #- mipsel_24kc_24kf
+          #- mipsel_74kc
+          #- mips64_octeonplus
+          #- i386_pentium4
           - x86_64
+        release:
+          - openwrt-23.05
 
     steps:
       - name: Checkout
@@ -41,7 +43,7 @@ jobs:
       - name: Build
         uses: openwrt/gh-action-sdk@main
         env:
-          ARCH: ${{ matrix.arch }}
+          ARCH: ${{ matrix.arch }}-${{ matrix.release }}
           FEEDNAME: mihomo
           PACKAGES: luci-app-mihomo
           NO_REFRESH_CHECK: true
