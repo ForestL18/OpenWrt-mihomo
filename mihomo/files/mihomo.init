@@ -109,6 +109,9 @@ start_service() {
 	config_get geoip_asn_url "mixin" "geoip_asn_url"
 	config_get_bool geox_auto_update "mixin" "geox_auto_update" 0
 	config_get geox_update_interval "mixin" "geox_update_interval" "24"
+	### mixin file content
+	local mixin_file_content
+	config_get_bool mixin_file_content "mixin" "mixin_file_content" 0
 	# prepare
 	local tproxy_enable; tproxy_enable=0
 	if [[ "$tcp_transparent_proxy_mode" == "tproxy" || "$udp_transparent_proxy_mode" == "tproxy" ]]; then
@@ -149,13 +152,13 @@ start_service() {
 		ui_path="ui" ui_name="$ui_name" ui_url="$ui_url" api_listen="0.0.0.0:$api_port" api_secret="$api_secret" \
 		allow_lan="$allow_lan" http_port="$http_port" socks_port="$socks_port" mixed_port="$mixed_port" redir_port="$redir_port" tproxy_port="$tproxy_port" \
 		tun_enable="$tun_enable" tun_stack="$tun_stack" tun_device="$TUN_DEVICE" tun_mtu="$tun_mtu" tun_gso="$tun_gso" tun_gso_max_size="$tun_gso_max_size" tun_endpoint_independent_nat="$tun_endpoint_independent_nat" \
-		dns_enable="true" dns_listen="0.0.0.0:$dns_port" \
+		dns_enable="true" dns_listen="0.0.0.0:$dns_port" dns_mode="$dns_mode" fake_ip_range="$fake_ip_range" \
 		yq -M -i '
 		.log-level = env(log_level) | .ipv6 = env(ipv6) == 1 |
 		.external-ui = env(ui_path) | .external-ui-name = env(ui_name) | .external-ui-url = env(ui_url) | .external-controller = env(api_listen) | .secret = env(api_secret) |
 		.allow-lan = env(allow_lan) == 1 | .port = env(http_port) | .socks-port = env(socks_port) | .mixed-port = env(mixed_port) | .redir-port = env(redir_port) | .tproxy-port = env(tproxy_port) |
 		.tun.enable = env(tun_enable) == 1 | .tun.stack = env(tun_stack) | .tun.device = env(tun_device) | .tun.mtu = env(tun_mtu) | .tun.gso = env(tun_gso) == 1 | .tun.gso-max-size = env(tun_gso_max_size) | .tun.endpoint-independent-nat = env(tun_endpoint_independent_nat) == 1 |
-		.dns.enable = env(dns_enable) | .dns.listen = env(dns_listen)
+		.dns.enable = env(dns_enable) | .dns.listen = env(dns_listen) | .dns.enhanced-mode = env(dns_mode) | .dns.fake-ip-range = env(fake_ip_range)
 		' "$RUN_PROFILE_PATH"
 	else
 		log "Mixin is enabled, mixin all config."
@@ -189,16 +192,12 @@ start_service() {
 			config_foreach mixin_hosts "host"
 		fi
 		if [ "$dns_nameserver" == 1 ]; then
-			yq -M -i 'del(.dns.default-nameserver) | del(.dns.proxy-server-nameserver) | del(.dns.nameserver) | del(.dns.fallback)' "$RUN_PROFILE_PATH"
+			yq -M -i 'del(.dns.default-nameserver) | del(.dns.proxy-server-nameserver) | del(.dns.direct-nameserver) | del(.dns.nameserver) | del(.dns.fallback)' "$RUN_PROFILE_PATH"
 			config_foreach mixin_nameservers "nameserver"
 		fi
 		if [ "$dns_nameserver_policy" == 1 ]; then
 			yq -M -i 'del(.dns.nameserver-policy)' "$RUN_PROFILE_PATH"
 			config_foreach mixin_nameserver_policies "nameserver_policy"
-		fi
-		# mixin file
-		if [ -s "$MIXIN_FILE_PATH" ]; then
-			yq ea -M -i '. as $item ireduce ({}; . * $item ) | ... comments=""' "$RUN_PROFILE_PATH" "$MIXIN_FILE_PATH"
 		fi
 	fi
 	yq -M -i 'del (.bind-address)' "$RUN_PROFILE_PATH"
@@ -215,6 +214,11 @@ start_service() {
 	fi
 	if [ "$tun_enable" == 1 ]; then
 		yq -M -i '.tun.auto-route = false | .tun.auto-redirect = false | .tun.auto-detect-interface = false | .tun.dns-hijack = []' "$RUN_PROFILE_PATH"
+	fi
+	if [ "$mixin_file_content" == 1 ]; then
+		if [ -s "$MIXIN_FILE_PATH" ]; then
+			yq ea -M -i '. as $item ireduce ({}; . * $item ) | ... comments=""' "$RUN_PROFILE_PATH" "$MIXIN_FILE_PATH"
+		fi
 	fi
 	# test profile
 	if [ "$test_profile" == 1 ]; then
@@ -242,12 +246,6 @@ start_service() {
 
 	procd_set_param limits core="unlimited"
 	procd_set_param limits nofile="1048576 1048576"
-
-	procd_add_jail mihomo requirejail procfs
-	procd_add_jail_mount "$PROG" /etc/TZ /etc/localtime /etc/hosts /etc/ssl/certs
-	procd_add_jail_mount_rw "$RUN_DIR" "$LOG_DIR" /dev/net
-	procd_set_param capabilities /etc/capabilities/mihomo.json
-	procd_set_param no_new_privs 1
 
 	procd_close_instance
 	# transparent proxy
@@ -302,17 +300,10 @@ start_service() {
 				ip -6 rule add pref "$UDP_RULE_PREF" fwmark "$FW_MARK/$FW_MARK_MASK" ipproto udp table "$udp_route_table"
 			fi
 		fi
-		nft -f "$HIJACK_NFT" \
-		    -D FW_MARK="$FW_MARK" \
-			-D FW_MARK_MASK="$FW_MARK_MASK" \
-			-D MIHOMO_USER="$MIHOMO_USER" \
-			-D TUN_DEVICE="$TUN_DEVICE" \
-			-D DNS_PORT="$dns_port" \
-			-D REDIR_PORT="$redir_port" \
-			-D TPROXY_PORT="$tproxy_port"
-
+		nft -f "$HIJACK_NFT" -D FW_MARK="$FW_MARK" -D FW_MARK_MASK="$FW_MARK_MASK" -D TUN_DEVICE="$TUN_DEVICE" -D DNS_PORT="$dns_port" -D REDIR_PORT="$redir_port" -D TPROXY_PORT="$tproxy_port"
 		nft -f "$RESERVED_IP_NFT"
 		nft -f "$RESERVED_IP6_NFT"
+		nft add element inet "$FW_TABLE" bypass_group \{ "$MIHOMO_GROUP" \}
 		nft add element inet "$FW_TABLE" fake_ip \{ "$fake_ip_range" \}
 		# dns hijack
 		if [ "$ipv4_dns_hijack" == 1 ]; then
@@ -447,10 +438,11 @@ log() {
 }
 
 clear_log() {
-	if [ -d "$LOG_DIR" ]; then
-		rm -rf "$LOG_DIR"
+	if [ ! -d "$LOG_DIR" ]; then
+		mkdir "$LOG_DIR"
 	fi
-	mkdir "$LOG_DIR"
+	echo -n > "$APP_LOG_PATH"
+	echo -n > "$CORE_LOG_PATH"
 }
 
 mixin_authentications() {

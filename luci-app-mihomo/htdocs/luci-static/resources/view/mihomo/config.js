@@ -232,6 +232,7 @@ return view.extend({
         s = m.section(form.TableSection, 'subscription', _('Subscription Config'));
         s.addremove = true;
         s.anonymous = true;
+        s.sortable = true;
 
         o = s.option(form.Value, 'name', _('Subscription Name'));
         o.rmempty = false;
@@ -241,7 +242,7 @@ return view.extend({
         o.rmempty = false;
 
         o = s.option(form.Value, 'user_agent', _('User Agent'));
-        o.default = 'mihomo';
+        o.default = 'clash';
         o.rmempty = false;
         o.width = '15%';
         o.value('mihomo');
@@ -279,11 +280,11 @@ return view.extend({
         o.rmempty = false;
 
         o = s.taboption('general', form.Value, 'tcp_keep_alive_idle', _('TCP Keep Alive Idle'));
-        o.datatype = 'integer';
+        o.datatype = 'uinteger';
         o.placeholder = '600';
 
         o = s.taboption('general', form.Value, 'tcp_keep_alive_interval', _('TCP Keep Alive Interval'));
-        o.datatype = 'integer';
+        o.datatype = 'uinteger';
         o.placeholder = '15';
 
         s.tab('external_control', _('External Control Config'));
@@ -339,8 +340,9 @@ return view.extend({
         o.retain = true;
         o.depends('authentication', '1');
 
-        o.subsection.anonymous = true;
         o.subsection.addremove = true;
+        o.subsection.anonymous = true;
+        o.subsection.sortable = true;
 
         so = o.subsection.option(form.Flag, 'enabled', _('Enable'));
         so.rmempty = false;
@@ -359,13 +361,16 @@ return view.extend({
         o.value('mixed', 'Mixed');
 
         o = s.taboption('tun', form.Value, 'tun_mtu', '*' + ' ' + _('MTU'));
+        o.datatype = 'uinteger';
         o.placeholder = '9000';
 
         o = s.taboption('tun', form.Flag, 'tun_gso', '*' + ' ' + _('GSO'));
         o.rmempty = false;
 
         o = s.taboption('tun', form.Value, 'tun_gso_max_size', '*' + ' ' + _('GSO Max Size'));
+        o.datatype = 'uinteger';
         o.placeholder = '65536';
+        o.retain = true;
         o.depends('tun_gso', '1');
 
         o = s.taboption('tun', form.Flag, 'tun_endpoint_independent_nat', '*' + ' ' + _('Endpoint Independent NAT'));
@@ -377,12 +382,12 @@ return view.extend({
         o.datatype = 'port';
         o.placeholder = '1053';
 
-        o = s.taboption('dns', form.ListValue, 'dns_mode', _('DNS Mode'));
+        o = s.taboption('dns', form.ListValue, 'dns_mode', '*' + ' ' + _('DNS Mode'));
         o.value('normal', 'Normal');
         o.value('fake-ip', 'Fake-IP');
         o.value('redir-host', 'Redir-Host');
 
-        o = s.taboption('dns', form.Value, 'fake_ip_range', _('Fake-IP Range'));
+        o = s.taboption('dns', form.Value, 'fake_ip_range', '*' + ' ' + _('Fake-IP Range'));
         o.datatype = 'cidr4';
         o.placeholder = '198.18.0.1/16';
         o.retain = true;
@@ -398,6 +403,7 @@ return view.extend({
         o.depends({ 'dns_mode': 'fake-ip', 'fake_ip_filter': '1' });
 
         o = s.taboption('dns', form.ListValue, 'fake_ip_filter_mode', _('Fake-IP Filter Mode'))
+        o.retain = true;
         o.value('blacklist', _('Block Mode'));
         o.value('whitelist', _('Allow Mode'));
         o.depends({ 'dns_mode': 'fake-ip', 'fake_ip_filter': '1' });
@@ -429,8 +435,9 @@ return view.extend({
         o.retain = true;
         o.depends('hosts', '1');
 
-        o.subsection.anonymous = true;
         o.subsection.addremove = true;
+        o.subsection.anonymous = true;
+        o.subsection.sortable = true;
 
         so = o.subsection.option(form.Flag, 'enabled', _('Enable'));
         so.rmempty = false;
@@ -447,16 +454,17 @@ return view.extend({
         o.retain = true;
         o.depends('dns_nameserver', '1');
 
+        o.subsection.addremove = true;
         o.subsection.anonymous = true;
-        o.subsection.addremove = false;
+        o.subsection.sortable = true;
 
         so = o.subsection.option(form.Flag, 'enabled', _('Enable'));
         so.rmempty = false;
 
         so = o.subsection.option(form.ListValue, 'type', _('Type'));
-        so.readonly = true;
         so.value('default-nameserver');
         so.value('proxy-server-nameserver');
+        so.value('direct-nameserver');
         so.value('nameserver');
         so.value('fallback');
 
@@ -469,8 +477,9 @@ return view.extend({
         o.retain = true;
         o.depends('dns_nameserver_policy', '1');
 
-        o.subsection.anonymous = true;
         o.subsection.addremove = true;
+        o.subsection.anonymous = true;
+        o.subsection.sortable = true;
 
         so = o.subsection.option(form.Flag, 'enabled', _('Enable'));
         so.rmempty = false;
@@ -506,14 +515,14 @@ return view.extend({
         o.rmempty = false;
 
         o = s.taboption('geox', form.Value, 'geox_update_interval', _('GeoX Update Interval'), _('Hour'));
-        o.datatype = 'integer';
+        o.datatype = 'uinteger';
         o.placeholder = '24';
         o.retain = true;
         o.depends('geox_auto_update', '1');
 
-        s.tab('mixin_file_content', _('Mixin File Content'), _('Please go to the editor tab to edit the file for mixin'));
+        s.tab('mixin_file_content', _('Mixin File Content'));
 
-        o = s.taboption('mixin_file_content', form.HiddenValue, '_mixin_file_content');
+        o = s.taboption('mixin_file_content', form.Flag, 'mixin_file_content', '*' + ' ' + _('Enable'), _('Please go to the editor tab to edit the file for mixin'));
 
         return m.render();
     }
