@@ -95,18 +95,29 @@ return view.extend({
         });
     },
 
-    handleSaveApply: function (ev, mode) {
+    getEditorData() {
         const path = this.m.lookupOption('_profile', 'editor')[0].formvalue('editor');
         const content = this.editor ? this.editor.getValue() : '';
+        return { path, content };
+    },
 
-        return fs.write(path, content).finally(() => {
+    saveContent(path, content) {
+        return fs.write(path, content);
+    },
+
+    handleSaveApply(ev, mode) {
+        const { path, content } = this.getEditorData();
+
+        return this.saveContent(path, content).finally(() => {
             return mode === '0' ? mihomo.reload() : mihomo.restart();
         });
     },
 
-    handleReset: function () {
-        if (this.editor) {
-            this.editor.setValue('');
-        }
-    }
+    handleSave(ev) {
+        const { path, content } = this.getEditorData();
+
+        return this.saveContent(path, content);
+    },
+
+    handleReset: null
 });
