@@ -33,15 +33,15 @@ jobs:
           - x86_64
         branch:
           - openwrt-23.05
-          - openwrt-24.10
-          - SNAPSHOT
+          #- openwrt-24.10
+          #- SNAPSHOT
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Build
-        uses: ForestL18/gh-action-sdk@main
+        uses: openwrt/gh-action-sdk@main
         env:
           ARCH: ${{ matrix.arch }}-${{ matrix.branch }}
           FEEDNAME: mihomo
