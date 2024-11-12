@@ -12,20 +12,26 @@ return view.extend({
             mihomo.listProfiles(),
         ]);
     },
-
     render: function (data) {
+        const subscriptions = uci.sections('mihomo', 'subscription');
         const profiles = data[1];
-        let s, o;
 
-        this.m = new form.Map('mihomo', _('Mihomo Configuration'));
-        s = this.m.section(form.NamedSection, 'editor', 'editor');
+        let m, s, o;
+
+        m = new form.Map('mihomo');
+
+        s = m.section(form.NamedSection, 'editor', 'editor');
 
         o = s.option(form.ListValue, '_profile', _('Choose Profile'));
         o.optional = true;
 
         for (const profile of profiles) {
             o.value(mihomo.profilesDir + '/' + profile.name, _('File:') + profile.name);
-        }
+        };
+
+        for (const subscription of subscriptions) {
+            o.value(mihomo.subscriptionsDir + '/' + subscription['.name'] + '.yaml', _('Subscription:') + subscription.name);
+        };
 
         o.value(mihomo.mixinFilePath, _('File for Mixin'));
         o.value(mihomo.runProfilePath, _('Profile for Startup'));
