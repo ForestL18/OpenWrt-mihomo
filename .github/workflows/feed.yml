@@ -41,6 +41,9 @@ jobs:
           - openwrt-23.05
           - openwrt-24.10
           - SNAPSHOT
+        exclude:
+          - arch: aarch64_cortex-a76
+            branch: openwrt-23.05
 
     steps:
       - name: Checkout
@@ -79,11 +82,10 @@ jobs:
         with:
           pattern: mihomo_*
           merge-multiple: true
-
-      - name: Prepare
+      
+      - name: Uncompress
         run: |
           for file in mihomo_*.tar.gz; do tar -x -z -f "$file"; done
-          cd public; for file in SNAPSHOT/*; do ln -s "$file" "$(basename "$file")"; done
 
       - name: Feed
         uses: peaceiris/actions-gh-pages@v4
