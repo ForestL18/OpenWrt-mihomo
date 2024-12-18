@@ -26,7 +26,7 @@ Transparent Proxy with Mihomo on OpenWrt.
 
 ```shell
 # only needs to be run once
-curl -s -L https://ghp.ci/https://github.com/morytyann/OpenWrt-mihomo/raw/refs/heads/main/feed.sh | ash
+curl -s -L https://github.com/morytyann/OpenWrt-mihomo/raw/refs/heads/main/feed.sh | ash
 ```
 
 2. Install
@@ -46,13 +46,13 @@ apk add --allow-untrusted luci-i18n-mihomo-zh-cn
 ### B. Install From Release
 
 ```shell
-curl -s -L https://ghp.ci/https://github.com/morytyann/OpenWrt-mihomo/raw/refs/heads/main/install.sh | ash
+curl -s -L https://github.com/morytyann/OpenWrt-mihomo/raw/refs/heads/main/install.sh | ash
 ```
 
 ## Uninstall & Reset
 
 ```shell
-curl -s -L https://ghp.ci/https://github.com/morytyann/OpenWrt-mihomo/raw/refs/heads/main/uninstall.sh | ash
+curl -s -L https://github.com/morytyann/OpenWrt-mihomo/raw/refs/heads/main/uninstall.sh | ash
 ```
 
 ## How To Use
@@ -94,3 +94,9 @@ The ipk file will be found under `bin/packages/your_architecture/mihomo`.
 - kmod-inet-diag
 - kmod-nft-tproxy
 - kmod-tun
+
+## Special Thanks
+
+- [@pmkol](https://github.com/pmkol)
+- [@ApoisL](https://github.com/vernlau)
+- [@xishang0128](https://github.com/xishang0128)

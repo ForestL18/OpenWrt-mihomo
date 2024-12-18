@@ -9,21 +9,20 @@ return view.extend({
     load: function () {
         return Promise.all([
             uci.load('mihomo'),
-            mihomo.listProfiles(),
+            mihomo.listProfiles()
         ]);
     },
     render: function (data) {
         const subscriptions = uci.sections('mihomo', 'subscription');
         const profiles = data[1];
-
         let m, s, o;
 
         m = new form.Map('mihomo');
         this.m = m;
 
-        s = m.section(form.NamedSection, 'editor', 'editor');
+        s = m.section(form.NamedSection, 'editor', 'editor', _('Editor'));
 
-        o = s.option(form.ListValue, '_profile', _('Choose Profile'));
+        o = s.option(form.ListValue, '_file', _('Choose File'));
         o.optional = true;
 
         for (const profile of profiles) {
@@ -103,7 +102,7 @@ return view.extend({
     },
 
     getEditorData() {
-        const path = this.m.lookupOption('_profile', 'editor')[0].formvalue('editor');
+        const path = this.m.lookupOption('_file', 'editor')[0].formvalue('editor');
         const content = this.editor ? this.editor.getValue() : '';
         return { path, content };
     },
