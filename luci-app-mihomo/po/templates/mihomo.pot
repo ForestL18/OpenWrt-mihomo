@@ -561,10 +561,14 @@ msgid "Subscription:"
 msgstr ""
 
 #: applications/luci-app-mihomo/htdocs/luci-static/resources/view/mihomo/mixin.js:53
+msgid "Disable TCP Keep Alive"
+msgstr ""
+
+#: applications/luci-app-mihomo/htdocs/luci-static/resources/view/mihomo/mixin.js:56
 msgid "TCP Keep Alive Idle"
 msgstr ""
 
-#: applications/luci-app-mihomo/htdocs/luci-static/resources/view/mihomo/mixin.js:57
+#: applications/luci-app-mihomo/htdocs/luci-static/resources/view/mihomo/mixin.js:60
 msgid "TCP Keep Alive Interval"
 msgstr ""
 
