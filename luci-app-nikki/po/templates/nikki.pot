@@ -44,11 +44,23 @@ msgstr ""
 msgid "App Version"
 msgstr ""
 
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:406
+msgid "Append Rule"
+msgstr ""
+
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:337
+msgid "Append Rule Provider"
+msgstr ""
+
 #: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:43
 msgid "Auto"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:202
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:393
+msgid "Behavior"
+msgstr ""
+
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:199
 #: luci-app-nikki/htdocs/luci-static/resources/view/nikki/proxy.js:66
 msgid "Block Mode"
 msgstr ""
@@ -73,7 +85,7 @@ msgstr ""
 msgid "Bypass User"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/editor.js:25
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/editor.js:29
 msgid "Choose File"
 msgstr ""
 
@@ -123,6 +135,18 @@ msgstr ""
 msgid "DNS Port"
 msgstr ""
 
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:429
+msgid "Destination IP"
+msgstr ""
+
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:433
+msgid "Destination IP Geo"
+msgstr ""
+
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:430
+msgid "Destination Port"
+msgstr ""
+
 #: luci-app-nikki/htdocs/luci-static/resources/view/nikki/proxy.js:134
 msgid "Destination TCP Port to Proxy"
 msgstr ""
@@ -167,11 +191,28 @@ msgstr ""
 msgid "DoH Prefer HTTP/3"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:240
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:237
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:425
 msgid "Domain Name"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:120
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:432
+msgid "Domain Name Geo"
+msgstr ""
+
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:427
+msgid "Domain Name Keyword"
+msgstr ""
+
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:428
+msgid "Domain Name Regex"
+msgstr ""
+
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:426
+msgid "Domain Name Suffix"
+msgstr ""
+
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:117
 msgid "Edit Authentications"
 msgstr ""
 
@@ -195,11 +236,19 @@ msgstr ""
 msgid "Edit Nameservers"
 msgstr ""
 
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:340
+msgid "Edit Rule Providers"
+msgstr ""
+
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:409
+msgid "Edit Rules"
+msgstr ""
+
 #: luci-app-nikki/htdocs/luci-static/resources/view/nikki/profile.js:32
 msgid "Edit Subscription"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/editor.js:23
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/editor.js:27
 #: luci-app-nikki/root/usr/share/luci/menu.d/luci-app-nikki.json:45
 msgid "Editor"
 msgstr ""
@@ -207,13 +256,15 @@ msgstr ""
 #: luci-app-nikki/htdocs/luci-static/resources/view/nikki/app.js:96
 #: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:23
 #: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:44
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:128
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:237
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:256
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:279
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:289
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:321
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:369
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:125
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:234
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:253
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:276
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:286
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:320
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:348
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:417
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:484
 #: luci-app-nikki/htdocs/luci-static/resources/view/nikki/proxy.js:31
 msgid "Enable"
 msgstr ""
@@ -246,20 +297,32 @@ msgstr ""
 msgid "Fast Reload"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/editor.js:36
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:387
+msgid "File Format"
+msgstr ""
+
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:381
+msgid "File Path"
+msgstr ""
+
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:375
+msgid "File Size Limit"
+msgstr ""
+
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/editor.js:48
 msgid "File for Mixin"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/editor.js:38
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/editor.js:50
 msgid "File for Reserved IP"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/editor.js:39
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/editor.js:51
 msgid "File for Reserved IP6"
 msgstr ""
 
 #: luci-app-nikki/htdocs/luci-static/resources/view/nikki/app.js:103
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/editor.js:29
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/editor.js:33
 msgid "File:"
 msgstr ""
 
@@ -279,39 +342,39 @@ msgstr ""
 msgid "General Config"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:342
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:457
 msgid "GeoData Loader"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:338
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:453
 msgid "GeoIP Format"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:355
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:470
 msgid "GeoIP(ASN) Url"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:352
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:467
 msgid "GeoIP(DAT) Url"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:349
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:464
 msgid "GeoIP(MMDB) Url"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:346
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:461
 msgid "GeoSite Url"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:358
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:473
 msgid "GeoX Auto Update"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:336
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:451
 msgid "GeoX Config"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:361
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:476
 msgid "GeoX Update Interval"
 msgstr ""
 
@@ -393,11 +456,12 @@ msgstr ""
 msgid "Match Process"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:282
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:279
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:435
 msgid "Matcher"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:344
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:459
 msgid "Memory Conservative Loader"
 msgstr ""
 
@@ -410,7 +474,7 @@ msgstr ""
 msgid "Mixin Config"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:367
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:482
 msgid "Mixin File Content"
 msgstr ""
 
@@ -423,14 +487,27 @@ msgstr ""
 msgid "Mode"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:266
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:285
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:354
+msgid "Name"
+msgstr ""
+
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:263
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:282
 msgid "Nameserver"
 msgstr ""
 
 #: luci-app-nikki/htdocs/luci-static/resources/view/nikki/app.js:39
 #: luci-app-nikki/root/usr/share/luci/menu.d/luci-app-nikki.json:3
 msgid "Nikki"
+msgstr ""
+
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:445
+msgid "No Resolve"
+msgstr ""
+
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:368
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:438
+msgid "Node"
 msgstr ""
 
 #: luci-app-nikki/htdocs/luci-static/resources/view/nikki/app.js:15
@@ -453,8 +530,8 @@ msgstr ""
 msgid "Overwrite DNS Hijack"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:298
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:333
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:295
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:332
 msgid "Overwrite Destination"
 msgstr ""
 
@@ -490,11 +567,11 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:369
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:484
 msgid "Please go to the editor tab to edit the file for mixin"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:330
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:329
 msgid "Port"
 msgstr ""
 
@@ -502,22 +579,30 @@ msgstr ""
 msgid "Prefer"
 msgstr ""
 
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:431
+msgid "Process Name"
+msgstr ""
+
 #: luci-app-nikki/htdocs/luci-static/resources/view/nikki/profile.js:18
 #: luci-app-nikki/root/usr/share/luci/menu.d/luci-app-nikki.json:21
 msgid "Profile"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/editor.js:37
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/editor.js:49
 msgid "Profile for Startup"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:324
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:323
 msgid "Protocol"
 msgstr ""
 
 #: luci-app-nikki/htdocs/luci-static/resources/view/nikki/proxy.js:27
 #: luci-app-nikki/root/usr/share/luci/menu.d/luci-app-nikki.json:37
 msgid "Proxy Config"
+msgstr ""
+
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/editor.js:45
+msgid "Proxy Provider:"
 msgstr ""
 
 #: luci-app-nikki/htdocs/luci-static/resources/view/nikki/proxy.js:35
@@ -548,8 +633,20 @@ msgstr ""
 msgid "Router Proxy"
 msgstr ""
 
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:335
+msgid "Rule Config"
+msgstr ""
+
 #: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:39
 msgid "Rule Mode"
+msgstr ""
+
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/editor.js:41
+msgid "Rule Provider:"
+msgstr ""
+
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:424
+msgid "Rule Set"
 msgstr ""
 
 #: luci-app-nikki/htdocs/luci-static/resources/view/nikki/app.js:15
@@ -573,8 +670,8 @@ msgstr ""
 msgid "Scroll To Bottom"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/tools/nikki.js:100
-#: luci-app-nikki/htdocs/luci-static/resources/tools/nikki.js:118
+#: luci-app-nikki/htdocs/luci-static/resources/tools/nikki.js:113
+#: luci-app-nikki/htdocs/luci-static/resources/tools/nikki.js:131
 msgid "Service is not running."
 msgstr ""
 
@@ -598,7 +695,7 @@ msgstr ""
 msgid "Stack"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:343
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:458
 msgid "Standard Loader"
 msgstr ""
 
@@ -623,7 +720,7 @@ msgid "Subscription Url"
 msgstr ""
 
 #: luci-app-nikki/htdocs/luci-static/resources/view/nikki/app.js:107
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/editor.js:33
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/editor.js:37
 msgid "Subscription:"
 msgstr ""
 
@@ -677,7 +774,9 @@ msgstr ""
 msgid "Transparent Proxy with Mihomo on OpenWrt."
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:259
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:256
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:357
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:421
 msgid "Type"
 msgstr ""
 
@@ -697,8 +796,8 @@ msgstr ""
 msgid "Unify Delay"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/tools/nikki.js:80
-#: luci-app-nikki/htdocs/luci-static/resources/tools/nikki.js:84
+#: luci-app-nikki/htdocs/luci-static/resources/tools/nikki.js:93
+#: luci-app-nikki/htdocs/luci-static/resources/tools/nikki.js:97
 msgid "Unknown"
 msgstr ""
 
@@ -714,11 +813,19 @@ msgstr ""
 msgid "Update Dashboard"
 msgstr ""
 
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:400
+msgid "Update Interval"
+msgstr ""
+
 #: luci-app-nikki/htdocs/luci-static/resources/view/nikki/profile.js:20
 msgid "Upload Profile"
 msgstr ""
 
-#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:223
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:363
+msgid "Url"
+msgstr ""
+
+#: luci-app-nikki/htdocs/luci-static/resources/view/nikki/mixin.js:220
 msgid "Use Hosts"
 msgstr ""
 
