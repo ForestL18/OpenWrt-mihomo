@@ -1,4 +1,4 @@
-name: Build Packages
+name: build-packages
 
 on:
   workflow_dispatch:
@@ -40,10 +40,10 @@ jobs:
             branch: openwrt-23.05
 
     steps:
-      - name: Checkout
+      - name: checkout
         uses: actions/checkout@v4
 
-      - name: Build
+      - name: build
         uses: ForestL18/gh-action-sdk@main
         env:
           ARCH: ${{ matrix.arch }}-${{ matrix.branch }}
@@ -51,7 +51,7 @@ jobs:
           PACKAGES: luci-app-nikki
           NO_REFRESH_CHECK: true
 
-      - name: Upload
+      - name: upload
         uses: actions/upload-artifact@v4
         with:
           name: nikki_${{ matrix.arch }}-${{ matrix.branch }}
