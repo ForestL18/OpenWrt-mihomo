@@ -37,8 +37,8 @@ jobs:
           - x86_64
         branch:
           - openwrt-23.05
-          - openwrt-24.10
-          - SNAPSHOT
+          #- openwrt-24.10
+          #- SNAPSHOT
         exclude:
           - arch: aarch64_cortex-a76
             branch: openwrt-23.05
@@ -48,7 +48,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: build
-        uses: openwrt/gh-action-sdk@main
+        uses: ForestL18/gh-action-sdk@main
         env:
           ARCH: ${{ matrix.arch }}-${{ matrix.branch }}
           FEEDNAME: nikki
