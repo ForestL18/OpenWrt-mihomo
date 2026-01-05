@@ -5,8 +5,8 @@ PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/MetaCubeX/mihomo.git
-PKG_SOURCE_DATE:=2026-01-02
-PKG_SOURCE_VERSION:=0cffc8d76dee66a64c9e3d4b71b7fdc60a85a62e
+PKG_SOURCE_DATE:=2026-01-05
+PKG_SOURCE_VERSION:=e6bf56b9afff24f487f9aa9a23196135451d283b
 PKG_MIRROR_HASH:=skip
 
 PKG_LICENSE:=GPL3.0+
@@ -16,7 +16,7 @@ PKG_BUILD_DEPENDS:=golang/host
 PKG_BUILD_PARALLEL:=1
 PKG_BUILD_FLAGS:=no-mips16
 
-PKG_BUILD_VERSION:=alpha-0cffc8d
+PKG_BUILD_VERSION:=alpha-e6bf56b
 PKG_BUILD_TIME:=$(shell date -u -Iseconds)
 
 GO_PKG:=github.com/metacubex/mihomo
