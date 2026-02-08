@@ -38,8 +38,8 @@ jobs:
         name: checkout
         uses: actions/checkout@v4
         with:
-          repository: 'MetaCubeX/mihomo'
-          ref: 'Alpha'
+          repository: 'ForestL18/mihomo'
+          ref: 'beta'
           path: 'mihomo'
       - id: info
         name: info
@@ -71,7 +71,7 @@ jobs:
           sed -i "s/PKG_SOURCE_DATE:=.*/PKG_SOURCE_DATE:=${{ needs.get_latest_info.outputs.commit_date }}/" OpenWrt-nikki/nikki/Makefile
           sed -i "s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:=${{ needs.get_latest_info.outputs.commit_sha }}/" OpenWrt-nikki/nikki/Makefile
           # sed -i "s/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=${{ needs.get_latest_info.outputs.checksum }}/" OpenWrt-nikki/nikki/Makefile
-          sed -i "s/PKG_BUILD_VERSION:=.*/PKG_BUILD_VERSION:=alpha-${{ needs.get_latest_info.outputs.short_commit_sha }}/" OpenWrt-nikki/nikki/Makefile
+          sed -i "s/PKG_BUILD_VERSION:=.*/PKG_BUILD_VERSION:=beta-${{ needs.get_latest_info.outputs.short_commit_sha }}/" OpenWrt-nikki/nikki/Makefile
       - id: pr
         name: pr
         uses: peter-evans/create-pull-request@v6
@@ -81,4 +81,4 @@ jobs:
           commit-message: "build: update mihomo to ${{ needs.get_latest_info.outputs.short_commit_sha }}"
           title: "build: update mihomo to ${{ needs.get_latest_info.outputs.short_commit_sha }}"
           body: |
-            [Changelog](https://github.com/metacubex/mihomo/compare/${{ needs.get_current_info.outputs.pkg_source_version }}...${{  needs.get_latest_info.outputs.commit_sha }})
+            [Changelog](https://github.com/forestl18/mihomo/compare/${{ needs.get_current_info.outputs.pkg_source_version }}...${{  needs.get_latest_info.outputs.commit_sha }})

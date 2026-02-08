@@ -4,7 +4,7 @@ PKG_NAME:=nikki
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://github.com/MetaCubeX/mihomo.git
+PKG_SOURCE_URL:=https://github.com/ForestL18/mihomo.git
 PKG_SOURCE_DATE:=2026-02-05
 PKG_SOURCE_VERSION:=86257fc83c228b78acc8bd6602970856985fc070
 PKG_MIRROR_HASH:=skip
@@ -16,10 +16,10 @@ PKG_BUILD_DEPENDS:=golang/host
 PKG_BUILD_PARALLEL:=1
 PKG_BUILD_FLAGS:=no-mips16
 
-PKG_BUILD_VERSION:=alpha-86257fc
+PKG_BUILD_VERSION:=beta-86257fc
 PKG_BUILD_TIME:=$(shell date -u -Iseconds)
 
-GO_PKG:=github.com/metacubex/mihomo
+GO_PKG:=github.com/forestl18/mihomo
 GO_PKG_LDFLAGS_X:=$(GO_PKG)/constant.Version=$(PKG_BUILD_VERSION) $(GO_PKG)/constant.BuildTime=$(PKG_BUILD_TIME)
 GO_PKG_TAGS:=with_gvisor
 
