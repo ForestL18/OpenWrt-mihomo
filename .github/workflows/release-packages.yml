@@ -58,7 +58,7 @@ jobs:
 
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: build
         uses: ForestL18/gh-action-sdk@main
@@ -86,7 +86,7 @@ jobs:
             nikki_${{ matrix.arch }}-${{ matrix.branch }}.tar.gz
 
       - name: upload
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: feed_nikki_${{ matrix.arch }}-${{ matrix.branch }}
           path: feed_nikki_${{ matrix.arch }}-${{ matrix.branch }}.tar.gz
@@ -98,7 +98,7 @@ jobs:
 
     steps:
       - name: download
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           pattern: feed_nikki_*
           merge-multiple: true
