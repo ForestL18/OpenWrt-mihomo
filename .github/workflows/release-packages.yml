@@ -65,7 +65,7 @@ jobs:
         env:
           ARCH: ${{ matrix.arch }}-${{ matrix.branch }}
           FEEDNAME: nikki
-          PACKAGES: luci-app-nikki
+          PACKAGES: mihomo-alpha mihomo-meta nikki luci-app-nikki
           INDEX: 1
           KEY_BUILD: ${{ secrets.KEY_BUILD }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
@@ -80,7 +80,7 @@ jobs:
 
       - if: github.event_name == 'push' && startsWith(github.ref_name, 'v')
         name: release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: |
             nikki_${{ matrix.arch }}-${{ matrix.branch }}.tar.gz
