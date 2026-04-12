@@ -76,7 +76,7 @@ jobs:
           sed -i "s/PKG_VERSION:=.*/PKG_VERSION:=${{ needs.get_latest_alpha_info.outputs.commit_date }}/" OpenWrt-nikki/mihomo-alpha/Makefile
           sed -i "s/PKG_SOURCE_VERSION:=.*/PKG_SOURCE_VERSION:=${{ needs.get_latest_alpha_info.outputs.commit_sha }}/" OpenWrt-nikki/mihomo-alpha/Makefile
           sed -i "s/PKG_MIRROR_HASH:=.*/PKG_MIRROR_HASH:=${{ needs.get_latest_alpha_info.outputs.checksum }}/" OpenWrt-nikki/mihomo-alpha/Makefile
-          sed -i "s/PKG_BUILD_VERSION:=.*/PKG_BUILD_VERSION:=alpha-${{ needs.get_latest_alpha_info.outputs.short_commit_sha }}/" OpenWrt-nikki/mihomo-alpha/Makefile
+          sed -i "s/PKG_BUILD_VERSION:=.*/PKG_BUILD_VERSION:=beta-${{ needs.get_latest_alpha_info.outputs.short_commit_sha }}/" OpenWrt-nikki/mihomo-alpha/Makefile
       - id: pr
         name: pr
         uses: peter-evans/create-pull-request@v8
@@ -86,7 +86,7 @@ jobs:
           commit-message: "chore: update mihomo-alpha to ${{ needs.get_latest_alpha_info.outputs.short_commit_sha }}"
           title: "chore: update mihomo-alpha to ${{ needs.get_latest_alpha_info.outputs.short_commit_sha }}"
           body: |
-            [Changelog](https://github.com/metacubex/mihomo/compare/${{ needs.get_current_alpha_info.outputs.pkg_source_version }}...${{  needs.get_latest_alpha_info.outputs.commit_sha }})
+            [Changelog](https://github.com/forestl18/mihomo/compare/${{ needs.get_current_alpha_info.outputs.pkg_source_version }}...${{  needs.get_latest_alpha_info.outputs.commit_sha }})
   get_current_meta_info:
     runs-on: ubuntu-latest
     outputs:
@@ -96,8 +96,8 @@ jobs:
         name: checkout
         uses: actions/checkout@v6
         with:
-          repository: nikkinikki-org/OpenWrt-nikki
-          ref: main
+          repository: ForestL18/OpenWrt-nikki
+          ref: beta
           path: OpenWrt-nikki
       - id: info
         name: info
@@ -147,8 +147,8 @@ jobs:
         name: checkout
         uses: actions/checkout@v6
         with:
-          repository: nikkinikki-org/OpenWrt-nikki
-          ref: main
+          repository: ForestL18/OpenWrt-nikki
+          ref: beta
           path: OpenWrt-nikki
       - id: update
         name: update

@@ -13,7 +13,7 @@ PKG_BUILD_FLAGS:=no-mips16
 
 PKG_BUILD_TIME:=$(shell date -u -Iseconds)
 
-GO_PKG:=github.com/metacubex/mihomo
+GO_PKG:=github.com/forestl18/mihomo
 GO_PKG_LDFLAGS_X:=$(GO_PKG)/constant.Version=$(PKG_SOURCE_VERSION) $(GO_PKG)/constant.BuildTime=$(PKG_BUILD_TIME)
 GO_PKG_TAGS:=with_gvisor
 

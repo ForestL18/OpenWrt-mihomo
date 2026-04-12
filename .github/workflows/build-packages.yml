@@ -61,7 +61,7 @@ jobs:
         env:
           ARCH: ${{ matrix.arch }}-${{ matrix.branch }}
           FEEDNAME: nikki
-          PACKAGES: mihomo-alpha mihomo-meta nikki luci-app-nikki
+          PACKAGES: mihomo-alpha nikki luci-app-nikki
           NO_REFRESH_CHECK: true
 
       - name: upload
