@@ -1,0 +1,74 @@
+Package: luci-app-nikki
+Version: 1.26.0-r1
+Depends: libc, luci-base, nikki
+Section: luci
+URL: https://github.com/openwrt/luci
+Architecture: all
+Installed-Size: 522240
+Filename: luci-app-nikki_1.26.0-r1_all.ipk
+Size: 136506
+SHA256sum: e90688fcb6437d22f232af2b964c3f287d8d0d0f1b9c56da3751870cea95a30e
+Description:  LuCI Support for nikki
+
+Package: luci-i18n-nikki-ru
+Version: 26.121.26180~4692c1f
+Depends: libc, luci-app-nikki
+Section: luci
+Architecture: all
+Installed-Size: 20480
+Filename: luci-i18n-nikki-ru_26.121.26180~4692c1f_all.ipk
+Size: 5737
+SHA256sum: ff1b2e586f09b43c727fdf2c8c531c9f7e9bef466ba4704b4db89bb73f6d9c16
+Description:  Translation for luci-app-nikki - Русский (Russian)
+
+Package: luci-i18n-nikki-zh-cn
+Version: 26.121.26180~4692c1f
+Depends: libc, luci-app-nikki
+Section: luci
+Architecture: all
+Installed-Size: 20480
+Filename: luci-i18n-nikki-zh-cn_26.121.26180~4692c1f_all.ipk
+Size: 5211
+SHA256sum: f87f39e918ce4867d16fca291ebdf6e171350f3e2475d5ac569aaa423ed3923b
+Description:  Translation for luci-app-nikki - 简体中文 (Simplified Chinese)
+
+Package: luci-i18n-nikki-zh-tw
+Version: 26.121.26180~4692c1f
+Depends: libc, luci-app-nikki
+Section: luci
+Architecture: all
+Installed-Size: 20480
+Filename: luci-i18n-nikki-zh-tw_26.121.26180~4692c1f_all.ipk
+Size: 5279
+SHA256sum: 075b7585c954d14a902298520f95c9ae0f9fb0b9334cf97094c5319f9ee8cce2
+Description:  Translation for luci-app-nikki - 正體中文 (Traditional Chinese)
+
+Package: mihomo-alpha
+Version: 2026.04.26
+Depends: libc, ca-bundle, ip-full, kmod-inet-diag, kmod-tun
+Conflicts: mihomo-meta
+Provides: mihomo
+Alternatives: 300:/usr/bin/mihomo:/usr/libexec/mihomo
+License: GPL3.0+
+Section: net
+URL: https://wiki.metacubex.one
+Architecture: aarch64_generic
+Installed-Size: 33146880
+Filename: mihomo-alpha_2026.04.26_aarch64_generic.ipk
+Size: 11977380
+SHA256sum: db719b0459b812255ae30b096b55aa2e4e3ea33e921625b83e64e89962815624
+Description:  A rule based proxy in Go.
+
+Package: nikki
+Version: 2026.04.08-r1
+Depends: libc, ca-bundle, curl, yq, firewall4, ip-full, kmod-inet-diag, kmod-nft-socket, kmod-nft-tproxy, kmod-tun, kmod-dummy, mihomo
+License: GPL3.0+
+Section: net
+URL: https://github.com/nikkinikki-org
+Architecture: aarch64_generic
+Installed-Size: 307200
+Filename: nikki_2026.04.08-r1_aarch64_generic.ipk
+Size: 52965
+SHA256sum: e8f280590f77d8cd88253719166cdf87be9bf1613a46ad5d834dda207f005757
+Description:  Transparent Proxy with Mihomo on OpenWrt.
+
