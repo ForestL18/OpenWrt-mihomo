@@ -118,7 +118,7 @@ return view.extend({
     },
 
     saveContent(path, content) {
-        return fs.write(path, content);
+        return nikki.writefile(path, content);
     },
 
     handleSaveApply(ev, mode) {
