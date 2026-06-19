@@ -24,7 +24,7 @@ PKG_BUILD_TIME:=$(shell date -u -Iseconds)
 GO_PKG:=github.com/forestl18/mihomo
 GO_PKG_BUILD_PKG:=github.com/forestl18/mihomo
 GO_PKG_LDFLAGS_X:=$(GO_PKG)/constant.Version=$(PKG_BUILD_VERSION) $(GO_PKG)/constant.BuildTime=$(PKG_BUILD_TIME)
-GO_PKG_TAGS:=with_gvisor
+GO_PKG_TAGS:=with_gvisor,embed_ca_only
 GO_PKG_INSTALL_BIN_PATH:=/usr/libexec
 
 include $(INCLUDE_DIR)/package.mk
